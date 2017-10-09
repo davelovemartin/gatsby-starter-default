@@ -1,0 +1,25 @@
+
+service:
+  name: call-of-the-brave
+
+custom:
+  secrets: ${file(secrets.json)}
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  environment:
+    STRIPE_SECRET_KEY: ${self:custom.secrets.stripeSecretKey}
+    MAILCHIMP_API_KEY: ${self:custom.secrets.mailchimpAPIKey}
+    MAILCHIMP_LIST_ID: ${self:custom.secrets.mailchimpListId}
+    MAILCHIMP_DATA_CENTRE: ${self:custom.secrets.mailchimpDataCentre}
+
+functions:
+  addMailSubscriber:
+    handler: functions/addMailSubscriber.handler
+    # The `events` block defines how to trigger the handler.createCharge code
+    events:
+      - http:
+          path: mail
+          method: post
+          cors: false

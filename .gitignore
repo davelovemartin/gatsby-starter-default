@@ -7,3 +7,7 @@ public/
 .DS_Store
 yarn-error.log
 yarn.lock
+serverless/secrets.json
+gatsby-config.js
+gatsby-node.js
+.env.development
