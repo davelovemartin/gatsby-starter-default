@@ -5,11 +5,13 @@
   "author": "Dave Martin <justanotherdavemartin@gmail.com>",
   "dependencies": {
     "@fortawesome/fontawesome": "0.0.16",
+    "@fortawesome/fontawesome-free-brands": "0.0.16",
     "@fortawesome/fontawesome-free-solid": "0.0.15",
     "@fortawesome/react-fontawesome": "0.0.7",
     "fs": "0.0.1-security",
     "gatsby": "^1.9.42",
     "gatsby-link": "^1.6.15",
+    "gatsby-plugin-lodash": "^1.0.4",
     "gatsby-plugin-nprogress": "^1.0.7",
     "gatsby-plugin-react-helmet": "^1.0.5",
     "gatsby-plugin-styled-components": "^1.0.5",

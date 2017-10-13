@@ -6,6 +6,7 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     `gatsby-transformer-remark`,
+    `gatsby-plugin-lodash`,
     {
       resolve: `gatsby-source-contentful`,
       options: {

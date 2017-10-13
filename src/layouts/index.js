@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import palx from 'palx'
 import Helmet from 'react-helmet'
 import { Provider } from 'rebass'
 import { injectGlobal } from 'styled-components'
@@ -8,6 +9,28 @@ injectGlobal`
   * { box-sizing: border-box; }
   body { margin: 0; }`
 
+const palette = palx('#c92929')
+
+const flattened = Object.keys(palette)
+   .reduce((a, key) => {
+     const value = palette[key]
+     if (Array.isArray(value)) {
+       a[key] = value[5]
+       value.forEach((val, i) => {
+         a[key + i] = val
+       })
+     } else {
+       a[key] = value
+     }
+     return a
+   }, {})
+
+export const colors = Object.assign({}, flattened, {
+  black: '#231f20',
+  jet: '#070606',
+  white: '#ffffff'
+})
+
 const TemplateWrapper = ({ children, data }) => (
   <Provider
     theme={{
@@ -15,59 +38,7 @@ const TemplateWrapper = ({ children, data }) => (
       fontSizes: [
         12, 16, 24, 32, 48, 64
       ],
-      colors: {
-        'base': '#c92929',
-        'black': '#231f20',
-        'jet': '#070606',
-        'grey': [
-          '#faf9f9',
-          '#f0ecec',
-          '#e5dfdf',
-          '#dad0d0',
-          '#cdc0c0',
-          '#bfafaf',
-          '#af9b9b',
-          '#9c8383',
-          '#816565',
-          '#4b3b3b'
-        ],
-        'red': [
-          '#f9eaea',
-          '#f4d4d4',
-          '#edbaba',
-          '#e59b9b',
-          '#db7272',
-          '#c92929',
-          '#b52525',
-          '#9e2020',
-          '#821a1a',
-          '#5c1212'
-        ],
-        'yellow': [
-          '#f7f7e2',
-          '#efefc3',
-          '#e7e7a2',
-          '#dede7d',
-          '#d4d455',
-          '#c9c929',
-          '#b5b525',
-          '#9f9f20',
-          '#84841b',
-          '#5f5f13'
-        ],
-        'blue': [
-          '#e7f0f9',
-          '#cddff2',
-          '#b0cdeb',
-          '#8db8e2',
-          '#639dd7',
-          '#2979c9',
-          '#246db5',
-          '#205f9e',
-          '#1a4e82',
-          '#12375b'
-        ]
-      }
+      colors: colors
     }}
   >
     <Helmet

@@ -5,6 +5,10 @@ import {
   Sticky,
   Text
 } from 'rebass'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import {
+  faHeart
+} from '@fortawesome/fontawesome-free-solid'
 
 const Copyright = props => (
   <Sticky bottom>
@@ -18,9 +22,10 @@ const Copyright = props => (
           p={2}
           f={0}
           center
-          children='MADE WITH ❤️ IN BRISTOL © 2017 CALL OF THE BRAVE LIMITED'
           color='grey.3'
-        />
+        >
+        MADE WITH <FontAwesomeIcon iconDefinition={faHeart} /> IN BRISTOL &copy; 2017 CALL OF THE BRAVE LIMITED
+        </Text>
       </Box>
     </Flex>
   </Sticky>

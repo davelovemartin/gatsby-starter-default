@@ -16,7 +16,7 @@ const Quote = props => (
     <CustomBlockquote
       f={[2, 3, 4]}
       p={4}
-      color={'blue.5'}
+      color={'blue'}
       children={props.children}
     />
   </Container>
