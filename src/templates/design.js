@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Backbar from '../components/backbar'
 import Footer from '../components/footer'
 import Quote from '../components/quote'
@@ -18,6 +18,7 @@ import {
   Text
 } from 'rebass'
 import Link from 'gatsby-link'
+import StripeCheckout from 'react-stripe-checkout'
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import brands from '@fortawesome/fontawesome-free-brands'
@@ -31,9 +32,12 @@ fontawesome.library.add(brands, faCircle, faHeart, faLink)
 const _ = require(`lodash`)
 
 const CustomButton = styled(Button)`
+  line-height: 24px;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25),
               0 2px 10px 0 rgba(0,0,0,0.1);
-  line-height: 24px;
+`
+const WarningText = styled(Text)`
+  background-color: rgba(201, 41, 41, 0.25);
 `
 const FavoriteButton = styled(Button)`
   background-color: white;
@@ -51,17 +55,90 @@ const CustomLinkButton = styled(Button)`
   margin: 5px;
   width: 48px;
 `
+const CustomGenderButton = styled(Button)`
+  ${props => props.showWarning && css`
+    box-shadow: 0 0 0 1px #c92929
+  `}
+`
 
 class GenderButton extends React.Component {
   handleClick = () => this.props.onClick(this.props.index, this.props.gender)
   render () {
-    return <Button
+    return <CustomGenderButton
       w={'50%'}
       mr={1}
+      showWarning={this.props.showWarning}
       bg={this.props.active ? 'blue5' : 'grey5'}
       children={this.props.gender}
       onClick={this.handleClick}
     />
+  }
+}
+
+class CustomStripeCheckout extends React.Component {
+  // TODO: get order no from stripe?
+  // TODO: send to thankyou page on completion
+  constructor(props) {
+    super(props)
+    this.currency = this.props.currency
+  }
+  componentDidUpdate (props) {
+    this.skuId = this.props.skuId
+    this.onToken = this.onToken.bind(this)
+  }
+  async onToken (token, args) {
+    const res = await fetch(process.env.STRIPE_CHECKOUT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+        order: {
+          currency: this.currency,
+          items: [
+            {
+              type: 'sku',
+              parent: this.skuId
+            }
+          ],
+          shipping: {
+            name: args.shipping_name,
+            address: {
+              line1: args.shipping_address_line1,
+              city: args.city,
+              postal_code: args.shipping_address_zip
+            }
+          }
+        }
+      })
+    })
+    // The await operator is used to wait for a Promise. It can only be used inside an async function.
+    const data = await res.json()
+  }
+  render () {
+    return <StripeCheckout
+      panelLabel={this.props.panelLabel}
+      description={this.props.description}
+      amount={this.props.amount}
+      currency={this.props.currency}
+      stripeKey={this.props.stripeKey}
+      shippingAddress={this.props.shippingAddress}
+      billingAddress={this.props.billingAddress}
+      zipCode={this.props.zipCode}
+      locale={this.props.locale}
+      token={this.onToken}
+      reconfigureOnUpdate={this.props.reconfigureOnUpdate}
+      triggerEvent={this.props.triggerEvent}
+      name={this.props.name}
+      skuId={this.props.skuId}
+    >
+      <CustomButton
+        mr={1}
+        bg={'base'}
+        px={4}
+        py={1}
+        w={'100%'}
+        children={this.props.panelLabel}
+      />
+    </StripeCheckout>
   }
 }
 
@@ -79,6 +156,13 @@ const CustomText = styled(Text)`
   letter-spacing: 1px;
   text-align: center;
 `
+const CustomSelect = styled(Select)`
+  ${props => props.showWarning && css`
+    > select {
+      box-shadow: inset 0 0 0 1px #c92929;
+    }
+  `}
+`
 
 class DesignPage extends React.Component {
   constructor (props) {
@@ -86,15 +170,10 @@ class DesignPage extends React.Component {
     // TODO: change to multiple styles eg. N45 rather than gender
     let products = _.groupBy(this.props.data.stripeProduct.skus.data, data => data.attributes.gender)
     let image = this.props.data.stripeProduct.images[0].toString()
-
     this.state = {
-      favorited: false,
-      favColor: 'black',
-      isSelected: false,
-      activeIndex: null,
-      activeSkuId: null,
       activeGenders: Object.keys(products),
       activeImage: image,
+      activeIndex: null,
       activeSizes: [
         {
           id: null,
@@ -103,17 +182,24 @@ class DesignPage extends React.Component {
             size: 'Choose a size',
           }
         }
-      ]
+      ],
+      activeSkuId: null,
+      favColor: 'black',
+      isFavorited: false,
+      isSelected: false,
+      showWarning: false,
+      showSizeWarning: false
     }
     this.favorite = this.favorite.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleDeactivatedCheckoutClick = this.handleDeactivatedCheckoutClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
   favorite (e) {
     //colours favourite heart
     // TODO: save favourites to user data
-    this.state.favorited ? this.setState({favColor: 'black', favorited: false}) : this.setState({favColor: 'base', favorited: true})
+    this.state.isFavorited ? this.setState({favColor: 'black', isFavorited: false}) : this.setState({favColor: 'base', isFavorited: true})
   }
 
   handleClick (index, gender) {
@@ -122,20 +208,32 @@ class DesignPage extends React.Component {
     // TODO: change from gender to product
     this.setState({ activeIndex: index})
     let filteredProduct = this.props.data.stripeProduct.skus.data.filter((product) => product.attributes.gender.includes(gender))
+    console.log(filteredProduct);
     let image = _.groupBy(filteredProduct, data => data.image)
     return this.setState({
       activeSizes: filteredProduct,
-      activeImage: Object.keys(image)[0]
+      activeSkuId: filteredProduct[0].id,
+      activeImage: Object.keys(image)[0],
+      isSelected: true,
+      showWarning: false,
+      showSizeWarning: false
     })
+  }
+
+  handleDeactivatedCheckoutClick () {
+    this.setState({showWarning: true})
   }
 
   handleChange (e) {
     //sets state based on size and sku selected
-    // TODO: handle no gender/style chosen
     let filteredProduct = this.props.data.stripeProduct.skus.data.filter(product => product.attributes.size.includes(e.target.value))
-    this.setState({ activeSkuId: filteredProduct[0].id})
+    this.setState({
+      activeSkuId: filteredProduct[0].id
+    })
   }
 
+  // TODO: need to redirect to thankyou page on success
+  // TODO: pass more meaningful description to checkout
   render () {
     return (
       <div>
@@ -188,6 +286,7 @@ class DesignPage extends React.Component {
               >
                 {this.state.activeGenders.map((activeGender, index) => (
                   <GenderButton
+                    showWarning={this.state.showWarning}
                     gender={activeGender}
                     key={index}
                     index={index}
@@ -196,7 +295,9 @@ class DesignPage extends React.Component {
                   />
                 ))}
               </Flex>
-              <Select
+              <CustomSelect
+                disabled={!this.state.isSelected}
+                showWarning={this.state.showWarning}
                 mt={3}
                 value={this.state.value}
                 onChange={this.handleChange}
@@ -207,29 +308,67 @@ class DesignPage extends React.Component {
                   children={activeSize.attributes.size}
                 />
               ))}
-              </Select>
-              <Small
+              </CustomSelect>
+              <Text
+                fontSize={0}
+                pt={2}
+                pr={2}
                 ml={1}
                 color={'blue'}
+                right
               >
                 <Link
                   to='#size-guide'
                   children='Size Guide'
                 />
-              </Small>
+              </Text>
+              { this.state.showSizeWarning &&
+                <Flex
+                  mb={4}
+                  mt={3}
+                >
+                  <Box width={1}>
+                    <WarningText
+                      p={2}
+                      children={'Please select a style before selecting your size'}
+                    />
+                  </Box>
+                </Flex>
+              }
               <Flex
                 mb={4}
                 mt={3}
               >
                 <Box width={1 / 2}>
-                  <CustomButton
-                    mr={1}
-                    bg={'base'}
-                    px={4}
-                    py={1}
-                    w={'100%'}
-                    children='BUY NOW'
-                  />
+                  {
+                     this.state.isSelected ? (
+                      <CustomStripeCheckout
+                        panelLabel='BUY NOW'
+                        description={this.props.data.stripeProduct.name}
+                        amount={2999}
+                        currency='gbp'
+                        stripeKey={process.env.STRIPE_PUBLIC_KEY}
+                        shippingAddress
+                        billingAddress
+                        zipCode
+                        locale='en'
+                        reconfigureOnUpdate
+                        triggerEvent={'onClick'}
+                        skuId={this.state.activeSkuId}
+                        name='Call of the Brave'
+                      />
+                    ) : (
+                      <CustomButton
+                        mr={1}
+                        bg={'base'}
+                        px={4}
+                        py={1}
+                        w={'100%'}
+                        children='BUY NOW'
+                        onClick={this.handleDeactivatedCheckoutClick}
+                      />
+                    )
+                  }
                 </Box>
                 <Box width={1 / 2}>
                   <Small
@@ -239,10 +378,24 @@ class DesignPage extends React.Component {
                   />
                 </Box>
               </Flex>
+              { this.state.showWarning &&
+                <Flex
+                  mb={4}
+                  mt={3}
+                >
+                  <Box width={1}>
+                    <WarningText
+                      p={2}
+                      children={'Please select from the available style and size options'}
+                    />
+                  </Box>
+                </Flex>
+              }
               <Text
                 mb={1}
                 children='Free delivery &amp; returns on all UK orders'
               />
+              // TODO: add share functionality
               <Text
                 my={4}
               >
@@ -281,6 +434,7 @@ class DesignPage extends React.Component {
           <CustomTabs
             m={'auto'}
           >
+          // TODO: add tab content and add functionality
             <TabItem active>
               The Mission
             </TabItem>

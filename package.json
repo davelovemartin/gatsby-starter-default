@@ -23,6 +23,7 @@
     "net": "^1.0.2",
     "palx": "^1.0.2",
     "react-form-with-constraints": "^0.6.1",
+    "react-stripe-checkout": "^2.6.3",
     "rebass": "^1.0.4",
     "request": "^2.83.0",
     "slugify": "^1.2.1",

@@ -17,9 +17,15 @@ provider:
 functions:
   addMailSubscriber:
     handler: functions/addMailSubscriber.handler
-    # The `events` block defines how to trigger the handler.createCharge code
     events:
       - http:
           path: mail
+          method: post
+          cors: false
+  createCharge:
+    handler: functions/createCharge.handler
+    events:
+      - http:
+          path: charge
           method: post
           cors: false
