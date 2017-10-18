@@ -1,9 +1,10 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import Link, { navigateTo }  from 'gatsby-link'
+import StripeCheckout from 'react-stripe-checkout'
 import Backbar from '../components/backbar'
+import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 import Quote from '../components/quote'
-import Copyright from '../components/copyright'
 import {
   Box,
   Button,
@@ -17,8 +18,9 @@ import {
   Tabs,
   Text
 } from 'rebass'
-import Link from 'gatsby-link'
-import StripeCheckout from 'react-stripe-checkout'
+
+import styled, { css } from 'styled-components'
+
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import brands from '@fortawesome/fontawesome-free-brands'
@@ -76,27 +78,23 @@ class GenderButton extends React.Component {
 }
 
 class CustomStripeCheckout extends React.Component {
-  // TODO: get order no from stripe?
-  // TODO: send to thankyou page on completion
   constructor(props) {
     super(props)
-    this.currency = this.props.currency
-  }
-  componentDidUpdate (props) {
-    this.skuId = this.props.skuId
     this.onToken = this.onToken.bind(this)
+    this.state = { orderNo: null}
   }
+
   async onToken (token, args) {
     const res = await fetch(process.env.STRIPE_CHECKOUT_URL, {
       method: 'POST',
       body: JSON.stringify({
         token,
         order: {
-          currency: this.currency,
+          currency: this.props.currency,
           items: [
             {
               type: 'sku',
-              parent: this.skuId
+              parent: this.props.skuId
             }
           ],
           shipping: {
@@ -112,8 +110,13 @@ class CustomStripeCheckout extends React.Component {
     })
     // The await operator is used to wait for a Promise. It can only be used inside an async function.
     const data = await res.json()
+    const orderNo = data.order.id
+    const slug = this.props.slug
+    navigateTo(`/thankyou?order=${orderNo}&slug=${slug}`)
   }
   render () {
+    const skuId = this.props.skuId;
+    const currency = this.props.currency;
     return <StripeCheckout
       panelLabel={this.props.panelLabel}
       description={this.props.description}
@@ -129,6 +132,7 @@ class CustomStripeCheckout extends React.Component {
       triggerEvent={this.props.triggerEvent}
       name={this.props.name}
       skuId={this.props.skuId}
+      slug={this.props.slug}
     >
       <CustomButton
         mr={1}
@@ -208,7 +212,6 @@ class DesignPage extends React.Component {
     // TODO: change from gender to product
     this.setState({ activeIndex: index})
     let filteredProduct = this.props.data.stripeProduct.skus.data.filter((product) => product.attributes.gender.includes(gender))
-    console.log(filteredProduct);
     let image = _.groupBy(filteredProduct, data => data.image)
     return this.setState({
       activeSizes: filteredProduct,
@@ -232,8 +235,6 @@ class DesignPage extends React.Component {
     })
   }
 
-  // TODO: need to redirect to thankyou page on success
-  // TODO: pass more meaningful description to checkout
   render () {
     return (
       <div>
@@ -344,7 +345,7 @@ class DesignPage extends React.Component {
                      this.state.isSelected ? (
                       <CustomStripeCheckout
                         panelLabel='BUY NOW'
-                        description={this.props.data.stripeProduct.name}
+                        description={this.props.data.stripeProduct.size + ' ' + this.props.data.stripeProduct.gender + ' ' + this.props.data.stripeProduct.name}
                         amount={2999}
                         currency='gbp'
                         stripeKey={process.env.STRIPE_PUBLIC_KEY}
@@ -356,6 +357,7 @@ class DesignPage extends React.Component {
                         triggerEvent={'onClick'}
                         skuId={this.state.activeSkuId}
                         name='Call of the Brave'
+                        slug={this.props.data.stripeProduct.slug}
                       />
                     ) : (
                       <CustomButton

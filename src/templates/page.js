@@ -26,6 +26,13 @@ class Page extends React.Component {
           image={this.props.data.contentfulPage.bannerCover.file.url}
         />
         {about}
+        // TODO: properly display images / markdown
+        // https://www.gatsbyjs.org/packages/gatsby-image/
+        // https://www.gatsbyjs.org/packages/gatsby-transformer-sharp/
+        // https://www.gatsbyjs.org/packages/gatsby-source-contentful/
+        // https://www.gatsbyjs.org/packages/gatsby-remark-images/
+        // https://github.com/Rulikkk/gatsby-remark-emoji
+        // TODO: add metrics collection https://github.com/viatsko/gatsby-plugin-yandex-metrika
         {content}
         <Cta
           callToAction={this.props.data.contentfulPage.callToAction}
