@@ -6,8 +6,16 @@ import { Provider } from 'rebass'
 import { injectGlobal } from 'styled-components'
 
 injectGlobal`
-  * { box-sizing: border-box; }
-  body { margin: 0; }`
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+  }
+`
 
 const palette = palx('#c92929')
 

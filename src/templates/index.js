@@ -17,31 +17,32 @@ class Index extends React.Component {
         return <Component children={node.internal.content} />
       }
     }
-    const about = checkElementDataExists(About, this.props.data.contentfulPage.about)
-    const quote = checkElementDataExists(Quote, this.props.data.contentfulPage.quote)
-    const quoteAttribute = checkElementDataExists(QuoteAttribute, this.props.data.contentfulPage.quoteAttribute)
-    const content = checkElementDataExists(Content, this.props.data.contentfulPage.content)
+    const page = this.props.data.contentfulPage
+    const about = checkElementDataExists(About, page.about)
+    const quote = checkElementDataExists(Quote, page.quote)
+    const quoteAttribute = checkElementDataExists(QuoteAttribute, page.quoteAttribute)
+    const content = checkElementDataExists(Content, page.content)
 
     return (
       <div>
         <Navbar />
         <Header
-          title={this.props.data.contentfulPage.title}
-          subtitle={this.props.data.contentfulPage.subtitle}
-          image={this.props.data.contentfulPage.bannerCover.file.url}
+          title={page.title}
+          subtitle={page.subtitle}
+          image={page.bannerCover.sizes}
         />
         {about}
         {content}
         <Cta
-          callToAction={this.props.data.contentfulPage.callToAction}
-          callToActionLink={'/' + this.props.data.contentfulPage.callToActionLink + '/'}
+          callToAction={page.callToAction}
+          callToActionLink={'/' + page.callToActionLink + '/'}
         />
         {quote}
         {quoteAttribute}
         <IndexSubFooter>
           <Cta
-            callToAction={this.props.data.contentfulPage.callToAction}
-            callToActionLink={'/' + this.props.data.contentfulPage.callToActionLink + '/'}
+            callToAction={page.callToAction}
+            callToActionLink={'/' + page.callToActionLink + '/'}
           />
         </IndexSubFooter>
         <Footer />
@@ -62,6 +63,9 @@ export const query = graphql`
       bannerCover{
         file {
           url
+        }
+        sizes(maxHeight: 600) {
+          ...GatsbyContentfulSizes
         }
       }
       content {

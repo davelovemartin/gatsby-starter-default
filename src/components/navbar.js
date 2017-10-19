@@ -1,5 +1,5 @@
 import React from 'react'
-// import Link from 'gatsby-link'
+import styled from 'styled-components'
 import {
   Button,
   Drawer,
@@ -14,6 +14,10 @@ import {
   faBars
 } from '@fortawesome/fontawesome-free-solid'
 
+const CustomFixed = styled(Fixed)`
+  z-index: 2;
+`
+
 class Navbar extends React.Component {
   constructor () {
     super()
@@ -21,7 +25,7 @@ class Navbar extends React.Component {
   }
   render () {
     return (
-      <Fixed
+      <CustomFixed
         width={'100%'}
       >
         <Hide xs>
@@ -95,7 +99,7 @@ class Navbar extends React.Component {
             </Flex>
           </Drawer>
         </Hide>
-      </Fixed>
+      </CustomFixed>
     )
   }
 }

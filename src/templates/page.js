@@ -14,16 +14,16 @@ class Page extends React.Component {
         return <Component children={node.internal.content} />
       }
     }
-    const about = checkElementDataExists(About, this.props.data.contentfulPage.about)
-    const content = checkElementDataExists(Content, this.props.data.contentfulPage.content)
-
+    const page = this.props.data.contentfulPage
+    const about = checkElementDataExists(About, page.about)
+    const content = checkElementDataExists(Content, page.content)
     return (
       <div>
         <Navbar />
         <Header
-          title={this.props.data.contentfulPage.title}
-          subtitle={this.props.data.contentfulPage.subtitle}
-          image={this.props.data.contentfulPage.bannerCover.file.url}
+          title={page.title}
+          subtitle={page.subtitle}
+          image={page.bannerCover.sizes}
         />
         {about}
         // TODO: properly display images / markdown
@@ -35,8 +35,8 @@ class Page extends React.Component {
         // TODO: add metrics collection https://github.com/viatsko/gatsby-plugin-yandex-metrika
         {content}
         <Cta
-          callToAction={this.props.data.contentfulPage.callToAction}
-          callToActionLink={'/' + this.props.data.contentfulPage.callToActionLink + '.html'}
+          callToAction={page.callToAction}
+          callToActionLink={'/' + page.callToActionLink + '.html'}
         />
         <Footer />
         <Copyright />
@@ -56,6 +56,9 @@ export const query = graphql`
       bannerCover{
         file {
           url
+        }
+        sizes(maxHeight: 600) {
+          ...GatsbyContentfulSizes
         }
       }
       about {

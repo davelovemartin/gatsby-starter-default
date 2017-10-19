@@ -1,4 +1,5 @@
 import React from 'react'
+import { Element } from 'react-scroll'
 import styled from 'styled-components'
 import {
   Container,
@@ -11,13 +12,18 @@ const CustomLead = styled(Lead)`
 
 const About = props => (
   <Container
+    mt={5}
     mb={5}
     w={[320, 540, 720]}
   >
-    <CustomLead
-      f={[1, 2, 3]}
-      children={props.children}
-    />
+    <Element
+      name='about'
+    >
+      <CustomLead
+        f={[1, 2, 3]}
+        children={props.children}
+      />
+    </Element>
   </Container>
 )
 

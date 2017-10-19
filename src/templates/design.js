@@ -1,5 +1,6 @@
 import React from 'react'
 import Link, { navigateTo }  from 'gatsby-link'
+import Img from 'gatsby-image'
 import StripeCheckout from 'react-stripe-checkout'
 import Backbar from '../components/backbar'
 import Copyright from '../components/copyright'
