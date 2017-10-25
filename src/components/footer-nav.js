@@ -1,13 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
+import fontawesome from '@fortawesome/fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import brands from '@fortawesome/fontawesome-free-brands'
+
+fontawesome.library.add(brands)
 
 import {
-  NavLink
+  NavLink,
+  Text
 } from 'rebass'
 
 const CustomNavLink = styled(NavLink)`
   color: white;
   font-weight: normal;
+`
+
+const CustomText = styled(Text)`
+  display: inline;
 `
 
 const FooterNav = props => (
@@ -20,6 +30,16 @@ const FooterNav = props => (
         ml={-2}
       />
     ))}
+    <CustomText
+      color={'white'}
+    >
+      <FontAwesomeIcon
+        size={'2x'}
+        pack='fab'
+        name='facebook-messenger'
+        transform='shrink-5 left-3 down-3'
+      />
+    </CustomText>
   </div>
 )
 

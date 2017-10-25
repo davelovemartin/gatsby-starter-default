@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'gatsby-link'
 import {
   Button,
   Drawer,
@@ -16,6 +17,11 @@ import {
 
 const CustomFixed = styled(Fixed)`
   z-index: 2;
+`
+
+const CustomLink = styled(Link)`
+  text-decoration: none;
+  color: white;
 `
 
 class Navbar extends React.Component {
@@ -35,23 +41,32 @@ class Navbar extends React.Component {
           >
             <NavLink
               mr='auto'
-              href='/index/'
-              children='Call of the Brave'
-            />
+            >
+              <CustomLink
+                to={'/index/'}
+                children={'Call of the Brave'}
+                color={'white'}
+              />
+            </NavLink>
             {navigation.map(mainLink => (
               <NavLink
                 key={mainLink.order}
-                href={mainLink.href}
-                children={mainLink.text}
-              />
+              >
+                <CustomLink
+                  to={mainLink.href}
+                  children={mainLink.text}
+                />
+              </NavLink>
             ))}
-            <Button ml={3}
-              bg='base'
-              is='a'
-              href='/start/'
+            <CustomLink
+              to='/start/'
             >
-              Join Us
-            </Button>
+              <Button ml={3}
+                bg='base'
+                >
+                Join Us
+              </Button>
+            </CustomLink>
           </Toolbar>
         </Hide>
         <Hide sm md lg>
@@ -113,13 +128,6 @@ const navigation = [{
   'position': 'Main'
 },
 {
-  'order': 2,
-  'href': '/manifesto/',
-  'text': 'Manifesto',
-  'type': 'Navigation',
-  'position': 'Main'
-},
-{
   'order': 3,
   'href': '/independent-artist-t-shirts/',
   'text': 'Artists',
@@ -130,13 +138,6 @@ const navigation = [{
   'order': 4,
   'href': '/designs/',
   'text': 'Designs',
-  'type': 'Navigation',
-  'position': 'Main'
-},
-{
-  'order': 5,
-  'href': '/blog/',
-  'text': 'Blog',
   'type': 'Navigation',
   'position': 'Main'
 }]

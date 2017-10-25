@@ -7,6 +7,15 @@ import {
   Text
 } from 'rebass'
 
+import fontawesome from '@fortawesome/fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import {
+  faRocket,
+  faUsers,
+  faFlagCheckered
+} from '@fortawesome/fontawesome-free-solid'
+fontawesome.library.add(faRocket, faUsers, faFlagCheckered)
+
 const Benefits = props => (
   <Container
     mt={6}
@@ -19,7 +28,8 @@ const Benefits = props => (
           key={feature.title}
           px={4}
           mb={[ 2, 3, 4 ]}
-          w={[ 1, 1 / 3, 1 / 3 ]}>
+          w={[ 1, 1 / 3, 1 / 3 ]}
+        >
           <Subhead
             f={[2, 3, 4]}
           >

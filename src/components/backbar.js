@@ -1,5 +1,4 @@
 import React from 'react'
-// import Link from 'gatsby-link'
 import {
   Fixed,
   Text,
@@ -10,6 +9,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import {
   faArrowLeft
 } from '@fortawesome/fontawesome-free-solid'
+
 
 class Backbar extends React.Component {
   constructor () {
@@ -27,11 +27,12 @@ class Backbar extends React.Component {
         >
           <NavLink
             mr='auto'
-            href='/shop/'
+            href={'/designs/'}
           >
             <FontAwesomeIcon iconDefinition={faArrowLeft} />
             <Text
-              children='&nbsp; back to the shop'
+              pl={1}
+              children='back to the shop'
             />
           </NavLink>
         </Toolbar>
