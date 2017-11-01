@@ -1,11 +1,12 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import Navbar from '../components/navbar'
 import Header from '../components/header'
 import About from '../components/about'
 import Content from '../components/content'
 import Cta from '../components/cta'
-import Footer from '../components/footer'
 import Copyright from '../components/copyright'
+import Footer from '../components/footer'
 
 class Page extends React.Component {
   render () {
@@ -19,7 +20,14 @@ class Page extends React.Component {
     const content = checkElementDataExists(Content, page.content)
     return (
       <div>
-        <Navbar />
+        <Helmet
+          title={this.props.data.site.siteMetadata.title}
+          meta={[
+          { name: 'description', content: 'Sample' },
+          { name: 'keywords', content: 'sample, something' }
+          ]}
+        />
+        <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
         <Header
           title={page.title}
           subtitle={page.subtitle}
@@ -31,7 +39,7 @@ class Page extends React.Component {
           callToAction={page.callToAction}
           callToActionLink={'/' + page.callToActionLink + '/'}
         />
-        <Footer />
+        <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>
     )
@@ -42,6 +50,21 @@ export default Page
 
 export const query = graphql`
   query PageQuery($slug: String!) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+    allContentfulNavigation {
+      edges {
+        node {
+          order
+          href
+          position
+          text
+        }
+      }
+    }
     contentfulPage(slug: { eq: $slug } ) {
       slug
       title

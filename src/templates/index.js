@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import Navbar from '../components/navbar'
 import Header from '../components/header'
 import About from '../components/about'
@@ -6,9 +7,10 @@ import Content from '../components/content'
 import Cta from '../components/cta'
 import Quote from '../components/quote'
 import QuoteAttribute from '../components/quote-attribute'
-import IndexSubFooter from '../components/index-sub-footer'
-import Footer from '../components/footer'
+import Benefits from '../components/benefits'
+import Logos from '../components/logos.js'
 import Copyright from '../components/copyright'
+import Footer from '../components/footer'
 
 class Index extends React.Component {
   render () {
@@ -25,7 +27,14 @@ class Index extends React.Component {
 
     return (
       <div>
-        <Navbar />
+        <Helmet
+          title={this.props.data.site.siteMetadata.title}
+          meta={[
+            { name: 'description', content: 'Sample' },
+            { name: 'keywords', content: 'sample, something' }
+          ]}
+        />
+        <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
         <Header
           title={page.title}
           subtitle={page.subtitle}
@@ -39,13 +48,15 @@ class Index extends React.Component {
         />
         {quote}
         {quoteAttribute}
-        <IndexSubFooter>
-          <Cta
-            callToAction={page.callToAction}
-            callToActionLink={'/' + page.callToActionLink + '/'}
-          />
-        </IndexSubFooter>
-        <Footer />
+        <Benefits
+          features={page.features.features}
+        />
+        <Cta
+          callToAction={page.callToAction}
+          callToActionLink={'/' + page.callToActionLink + '/'}
+        />
+        <Logos image={page.logos.sizes} />
+        <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>
     )
@@ -56,6 +67,21 @@ export default Index
 
 export const query = graphql`
   query IndexQuery($slug: String!) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+    allContentfulNavigation {
+      edges {
+        node {
+          order
+          href
+          position
+          text
+        }
+      }
+    }
     contentfulPage(slug: { eq: $slug } ) {
       slug
       title
@@ -90,6 +116,17 @@ export const query = graphql`
       }
       callToAction
       callToActionLink
+      features {
+        features {
+          title
+          text
+        }
+      }
+      logos {
+        sizes(maxHeight: 600) {
+          ...GatsbyContentfulSizes
+        }
+      }
     }
   }
 `

@@ -1,7 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import palx from 'palx'
-import Helmet from 'react-helmet'
 import { Provider } from 'rebass'
 import { injectGlobal } from 'styled-components'
 
@@ -39,7 +37,7 @@ export const colors = Object.assign({}, flattened, {
   white: '#ffffff'
 })
 
-const TemplateWrapper = ({ children, data }) => (
+const TemplateWrapper = props => (
   <Provider
     theme={{
       font: '"FuturaStd-Book", sans-serif',
@@ -49,29 +47,8 @@ const TemplateWrapper = ({ children, data }) => (
       colors: colors
     }}
   >
-    <Helmet
-      title={data.site.siteMetadata.title}
-      meta={[
-        { name: 'description', content: 'Sample' },
-        { name: 'keywords', content: 'sample, something' }
-      ]}
-    />
-    {children()}
+    {props.children()}
   </Provider>
 )
 
-TemplateWrapper.propTypes = {
-  children: PropTypes.func
-}
-
 export default TemplateWrapper
-
-export const query = graphql`
-  query LayoutQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-  }
-`

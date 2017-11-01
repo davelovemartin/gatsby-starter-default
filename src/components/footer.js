@@ -25,7 +25,7 @@ const Footer = props => (
       my={[3, 5, 5]}
       w={[ 1, 1 / 2, 1 / 3 ]}
     >
-      <FooterNav />
+      <FooterNav navigation={props.navigation} />
     </Box>
   </Flex>
 )

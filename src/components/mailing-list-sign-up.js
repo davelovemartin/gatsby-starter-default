@@ -29,7 +29,7 @@ class MailingListSignUp extends React.Component {
 
   async addMailSubscriber (email) {
     // Backend API url
-    const res = await fetch("https://0dmtq4572b.execute-api.us-east-1.amazonaws.com/dev/mail", {
+    const res = await fetch(process.env.MAILCHIMP_URL, {
       method: 'POST',
       body: JSON.stringify({
         email: email

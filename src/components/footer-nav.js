@@ -1,19 +1,28 @@
 import React from 'react'
+import Link from 'gatsby-link'
 import styled from 'styled-components'
+
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import brands from '@fortawesome/fontawesome-free-brands'
 
-fontawesome.library.add(brands)
-
 import {
-  NavLink,
   Text
 } from 'rebass'
 
-const CustomNavLink = styled(NavLink)`
+fontawesome.library.add(brands)
+
+const _ = require(`lodash`)
+
+const CustomLink = styled(Link)`
   color: white;
   font-weight: normal;
+  text-decoration: none;
+  margin-right: 6px;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-skip: ink;
+  }
 `
 
 const CustomText = styled(Text)`
@@ -22,14 +31,13 @@ const CustomText = styled(Text)`
 
 const FooterNav = props => (
   <div>
-    {navigation.map(footerNavLink => (
-      <CustomNavLink
-        key={footerNavLink.order}
-        href={footerNavLink.href}
-        children={footerNavLink.text}
-        ml={-2}
+    {_.chain(props.navigation).filter(['node.position', 'footer']).sortBy( 'node.order').map(({node}) => (
+      <CustomLink
+        key={node.order}
+        href={node.href}
+        children={node.text}
       />
-    ))}
+    )).value()}
     <CustomText
       color={'white'}
     >
@@ -44,25 +52,3 @@ const FooterNav = props => (
 )
 
 export default FooterNav
-
-const navigation = [{
-  'order': 1,
-  'href': '/faq/',
-  'text': 'f.a.q. //',
-  'type': 'Navigation',
-  'position': 'Footer'
-},
-{
-  'order': 2,
-  'href': '/shipping-and-returns/',
-  'text': 'shipping & returns //',
-  'type': 'Navigation',
-  'position': 'Footer'
-},
-{
-  'order': 3,
-  'href': 'http://m.me/callofthebrave',
-  'text': 'contact us',
-  'type': 'Navigation',
-  'position': 'Footer'
-}]

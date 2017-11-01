@@ -25,9 +25,12 @@ const CustomLink = styled(Link)`
 `
 
 class Navbar extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = { open: false }
+  }
+  handleSignOutClick () {
+    this.setState({ isAuthenticated: false })
   }
   render () {
     return (
@@ -41,6 +44,7 @@ class Navbar extends React.Component {
           >
             <NavLink
               mr='auto'
+              is='div'
             >
               <CustomLink
                 to={'/index/'}
@@ -48,25 +52,33 @@ class Navbar extends React.Component {
                 color={'white'}
               />
             </NavLink>
-            {navigation.map(mainLink => (
+            {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
               <NavLink
-                key={mainLink.order}
+                key={node.order}
+                is='div'
               >
                 <CustomLink
-                  to={mainLink.href}
-                  children={mainLink.text}
+                  to={'/' + node.href + '/'}
+                  children={node.text}
                 />
               </NavLink>
-            ))}
-            <CustomLink
-              to='/start/'
-            >
-              <Button ml={3}
-                bg='base'
-                >
-                Join Us
-              </Button>
-            </CustomLink>
+            )).value()}
+            {this.props.isAuthenticated ?
+              <CustomLink
+                to='/start/'
+              >
+                <Button ml={3}
+                  bg='base'
+                  >
+                  Join Us
+                </Button>
+              </CustomLink> :
+              <NavLink
+                children='Sign out'
+                onClick={this.handleSignOutClick}
+                is='div'
+              />
+            }
           </Toolbar>
         </Hide>
         <Hide sm md lg>
@@ -91,17 +103,22 @@ class Navbar extends React.Component {
                 href='/index/'
                 ml={2}
                 mb={2}
+                is='div'
               >
                 Call of the Brave
               </NavLink>
-              {navigation.map(mainLink => (
+              {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
                 <NavLink
-                  key={mainLink.order}
-                  href={mainLink.href}
-                  children={mainLink.text}
+                  key={node.order}
                   ml={2}
-                />
-              ))}
+                  is='div'
+                >
+                  <CustomLink
+                    to={'/' + node.href + '/'}
+                    children={node.text}
+                  />
+                </NavLink>
+              )).value()}
               <Button
                 mt={4}
                 ml={3}
@@ -120,24 +137,3 @@ class Navbar extends React.Component {
 }
 
 export default Navbar
-const navigation = [{
-  'order': 1,
-  'href': '/mission/',
-  'text': 'Mission',
-  'type': 'Navigation',
-  'position': 'Main'
-},
-{
-  'order': 3,
-  'href': '/independent-artist-t-shirts/',
-  'text': 'Artists',
-  'type': 'Navigation',
-  'position': 'Main'
-},
-{
-  'order': 4,
-  'href': '/designs/',
-  'text': 'Designs',
-  'type': 'Navigation',
-  'position': 'Main'
-}]

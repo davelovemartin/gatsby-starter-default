@@ -1,53 +1,33 @@
 import React from 'react'
+import styled from 'styled-components'
+import Feature from './feature.js'
 import {
-  Box,
   Container,
-  Flex,
-  Subhead,
-  Text
+  Flex
 } from 'rebass'
 
-import fontawesome from '@fortawesome/fontawesome'
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import {
-  faRocket,
-  faUsers,
-  faFlagCheckered
-} from '@fortawesome/fontawesome-free-solid'
-fontawesome.library.add(faRocket, faUsers, faFlagCheckered)
+const CustomFlex = styled(Flex)`
+  display: -webkit-flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-align-content: flex-end;
+  align-content: flex-end;
+`
 
 const Benefits = props => (
   <Container
     mt={6}
   >
-    <Flex
+    <CustomFlex
       wrap
-      mx={-3}>
-      {features.map(feature => (
-        <Box
-          key={feature.title}
-          px={4}
-          mb={[ 2, 3, 4 ]}
-          w={[ 1, 1 / 3, 1 / 3 ]}
-        >
-          <Subhead
-            f={[2, 3, 4]}
-          >
-            {feature.title}
-          </Subhead>
-          <Text f={[1]}>
-            {feature.text}
-          </Text>
-        </Box>
-      ))}
-    </Flex>
+      mx={-3}
+      children={props.features.map(feature => <Feature title={feature.title} text={feature.text} />)}
+    />
   </Container>
 )
-
-const features = [
-  {title: 'Launch.', text: 'Upload a design and set up your campaign page in 3 simple steps.'},
-  {title: 'Share.', text: 'Share on your social channels and collect pre-orders for a limited period.'},
-  {title: 'Get Paid.', text: 'Sell 10 or more t-shirts and we\'ll send them out direct to your buyers and pay you a comission.'}
-]
 
 export default Benefits

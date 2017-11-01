@@ -1,9 +1,12 @@
 import React from 'react'
 import Navbar from '../components/navbar'
-import Footer from '../components/footer'
-import Copyright from '../components/copyright'
+import AltHeader from '../components/alt-header'
 import styled from 'styled-components'
 import Link from 'gatsby-link'
+import Copyright from '../components/copyright'
+import Footer from '../components/footer'
+import Helmet from 'react-helmet'
+
 import {
   BackgroundImage,
   Box,
@@ -29,11 +32,6 @@ const CustomFlex = styled(Flex)`
   align-content: flex-end;
 `
 
-const CustomHeading = styled(Heading)`
-  display: inline;
-  font-style: italic;
-`
-
 const CustomLink = styled(Link)`
   text-decoration: none;
 `
@@ -43,17 +41,17 @@ class Designs extends React.Component {
     const designs = this.props.data
     return (
       <div>
-        <Navbar />
-        <Container
-          py={5}
-        >
-          <CustomHeading
-            children={'On Demand Shop'}
-            bg={'blue'}
-            color={'white'}
-            p={2}
-          />
-        </Container>
+        <Helmet
+          title={this.props.data.site.siteMetadata.title}
+          meta={[
+            { name: 'description', content: 'Sample' },
+            { name: 'keywords', content: 'sample, something' }
+          ]}
+        />
+        <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
+        <AltHeader
+          children='On Demand Shop'
+        />
         <Container>
           <CustomFlex>
           {designs.allStripeProduct.edges.map(({ node }) => (
@@ -83,7 +81,7 @@ class Designs extends React.Component {
           ))}
           </CustomFlex>
         </Container>
-        <Footer />
+        <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>
     )
@@ -94,6 +92,21 @@ export default Designs
 
 export const designsQuery = graphql`
 query DesignsQuery {
+  site {
+    siteMetadata {
+      title
+    }
+  }
+  allContentfulNavigation {
+    edges {
+      node {
+        order
+        href
+        position
+        text
+      }
+    }
+  }
   allStripeProduct {
     edges {
       node {

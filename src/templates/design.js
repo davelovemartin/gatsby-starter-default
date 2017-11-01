@@ -2,10 +2,11 @@ import React from 'react'
 import Link, { navigateTo }  from 'gatsby-link'
 import Img from 'gatsby-image'
 import StripeCheckout from 'react-stripe-checkout'
+import Helmet from 'react-helmet'
 import Backbar from '../components/backbar'
+import Quote from '../components/quote'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
-import Quote from '../components/quote'
 import {
   Box,
   Button,
@@ -277,6 +278,13 @@ class DesignPage extends React.Component {
   render () {
     return (
       <div>
+        <Helmet
+          title={this.props.data.site.siteMetadata.title}
+          meta={[
+            { name: 'description', content: 'Sample' },
+            { name: 'keywords', content: 'sample, something' }
+          ]}
+        />
         <Backbar />
         <Container
           maxWidth={'90%'}
@@ -668,8 +676,6 @@ class DesignPage extends React.Component {
             >However, if you have damaged the tee shirt - no dice. Sorry, thems the rules.</CustomText>
           </Container>
         : null }
-        <Footer />
-        <Copyright />
       </div>
     )
   }
@@ -679,6 +685,21 @@ export default DesignPage
 
 export const query = graphql`
   query DesignQuery($slug: String!) {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+    allContentfulNavigation {
+      edges {
+        node {
+          order
+          href
+          position
+          text
+        }
+      }
+    }
     stripeProduct(slug: { eq: $slug } ) {
       id
       name

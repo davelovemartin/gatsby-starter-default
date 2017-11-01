@@ -2,8 +2,14 @@
 service:
   name: call-of-the-brave
 
+  # Use serverless-webpack plugin to transpile ES6/ES7
+plugins:
+  - serverless-webpack
+
+# Enable auto-packing of external modules
 custom:
   secrets: ${file(secrets.json)}
+  webpackIncludeModules: true
 
 provider:
   name: aws
@@ -13,6 +19,18 @@ provider:
     MAILCHIMP_API_KEY: ${self:custom.secrets.mailchimpAPIKey}
     MAILCHIMP_LIST_ID: ${self:custom.secrets.mailchimpListId}
     MAILCHIMP_DATA_CENTRE: ${self:custom.secrets.mailchimpDataCentre}
+
+iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
   addMailSubscriber:
@@ -29,3 +47,43 @@ functions:
           path: charge
           method: post
           cors: false
+  create:
+    handler: functions/createNote.main
+    events:
+      - http:
+          path: notes
+          method: post
+          cors: true
+          authorizer: aws_iam
+  get:
+    handler: functions/getNote.main
+    events:
+      - http:
+          path: notes/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  list:
+    handler: functions/listNote.main
+    events:
+      - http:
+          path: notes
+          method: get
+          cors: true
+          authorizer: aws_iam
+  update:
+    handler: functions/updateNote.main
+    events:
+      - http:
+          path: notes/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  delete:
+    handler: functions/deleteNote.main
+    events:
+      - http:
+          path: notes/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam

@@ -22,7 +22,7 @@ const Copyright = props => (
           p={2}
           f={0}
           center
-          color='grey.3'
+          color={'gray3'}
         >
         MADE WITH <FontAwesomeIcon iconDefinition={faHeart} /> IN BRISTOL &copy; 2017 CALL OF THE BRAVE LIMITED
         </Text>
