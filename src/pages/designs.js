@@ -1,35 +1,23 @@
 import React from 'react'
+import Link from 'gatsby-link'
 import Navbar from '../components/navbar'
 import AltHeader from '../components/alt-header'
 import styled from 'styled-components'
-import Link from 'gatsby-link'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 import Helmet from 'react-helmet'
+import RowWrapFlex from '../components/row-wrap-flex'
 
 import {
   BackgroundImage,
   Box,
   Card,
   Container,
-  Flex,
-  Heading,
   Subhead
 } from 'rebass'
 
 const CustomCard = styled(Card)`
   box-shadow: none;
-`
-const CustomFlex = styled(Flex)`
-  display: -webkit-flex;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
-  -webkit-align-content: flex-end;
-  align-content: flex-end;
 `
 
 const CustomLink = styled(Link)`
@@ -42,32 +30,31 @@ class Designs extends React.Component {
     return (
       <div>
         <Helmet
-          title={this.props.data.site.siteMetadata.title}
+          title={designs.site.siteMetadata.title}
           meta={[
             { name: 'description', content: 'Sample' },
             { name: 'keywords', content: 'sample, something' }
           ]}
         />
-        <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
+        <Navbar navigation={designs.allContentfulNavigation.edges} />
         <AltHeader
           children='On Demand Shop'
         />
         <Container>
-          <CustomFlex>
+          <RowWrapFlex>
           {designs.allStripeProduct.edges.map(({ node }) => (
             <Box
               mb={3}
               width={'320px'}
+              key={node.id}
             >
               <CustomLink
                 to={'/designs/' + node.slug}
               >
-                <CustomCard
-                  key={node.id}
-                >
+                <CustomCard>
                   <BackgroundImage
                     ratio={1}
-                    src={node.images}
+                    src={node.images[0]}
                   />
                   <Subhead
                     pt={2}
@@ -79,9 +66,9 @@ class Designs extends React.Component {
               </CustomLink>
             </Box>
           ))}
-          </CustomFlex>
+          </RowWrapFlex>
         </Container>
-        <Footer navigation={this.props.data.allContentfulNavigation.edges} />
+        <Footer navigation={designs.allContentfulNavigation.edges} />
         <Copyright />
       </div>
     )
@@ -123,14 +110,10 @@ query DesignsQuery {
             price
             image
             attributes {
-              size
               artist
-              age
-              brand
-              style
               colour
-              gender
-              material
+              size
+              style
             }
           }
         }

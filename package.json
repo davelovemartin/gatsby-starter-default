@@ -1,7 +1,7 @@
 {
   "name": "call-of-the-brave-cms",
   "description": "Call of the Brave",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Dave Martin <justanotherdavemartin@gmail.com>",
   "dependencies": {
     "@fortawesome/fontawesome": "0.0.16",
@@ -11,7 +11,7 @@
     "amazon-cognito-identity-js": "^1.21.0",
     "anchorate": "^1.1.0",
     "fs": "0.0.1-security",
-    "gatsby": "^1.9.77",
+    "gatsby": "^1.9.99",
     "gatsby-image": "^1.0.14",
     "gatsby-link": "^1.6.23",
     "gatsby-plugin-lodash": "^1.0.4",

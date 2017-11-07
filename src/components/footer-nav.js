@@ -31,10 +31,10 @@ const CustomText = styled(Text)`
 
 const FooterNav = props => (
   <div>
-    {_.chain(props.navigation).filter(['node.position', 'footer']).sortBy( 'node.order').map(({node}) => (
+    {_.chain(props.navigation).filter(['node.position', 'footer']).sortBy('node.order').map(({node}) => (
       <CustomLink
         key={node.order}
-        href={node.href}
+        to={node.href}
         children={node.text}
       />
     )).value()}

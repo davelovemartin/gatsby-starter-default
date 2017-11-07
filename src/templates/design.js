@@ -71,19 +71,18 @@ const CustomLinkButton = styled(Button)`
   margin: 5px;
   width: 48px;
 `
-const CustomGenderButton = styled(Button)`
+const CustomStyleButton = styled(Button)`
   ${props => props.showWarning && css` box-shadow: 0 0 0 1px #c92929`}
 `
 
-class GenderButton extends React.Component {
-  handleClick = () => this.props.onClick(this.props.index, this.props.gender)
+class StyleButton extends React.Component {
+  handleClick = () => this.props.onClick(this.props.index, this.props.style)
   render () {
-    return <CustomGenderButton
-      w={'50%'}
+    return <CustomStyleButton
       mr={1}
       showWarning={this.props.showWarning}
       bg={this.props.active ? 'blue' : 'grey'}
-      children={this.props.gender}
+      children={this.props.style}
       onClick={this.handleClick}
     />
   }
@@ -141,7 +140,7 @@ class CustomStripeCheckout extends React.Component {
     const data = await res.json()
     const orderNo = data.order.id
     const slug = this.props.slug
-    navigateTo(`/thankyou?order=${orderNo}&slug=${slug}`)
+    this.props.history.push(`/thankyou?order=${orderNo}`)
   }
   render () {
     const skuId = this.props.skuId;
@@ -149,7 +148,7 @@ class CustomStripeCheckout extends React.Component {
     return <StripeCheckout
       panelLabel={this.props.panelLabel}
       description={this.props.description}
-      amount={this.props.amount}
+      amount={Number(this.props.amount)}
       currency={this.props.currency}
       stripeKey={this.props.stripeKey}
       shippingAddress={this.props.shippingAddress}
@@ -200,11 +199,10 @@ const CustomSelect = styled(Select)`
 class DesignPage extends React.Component {
   constructor (props) {
     super(props)
-    // TODO: change to multiple styles eg. N45 rather than gender
-    let products = _.groupBy(this.props.data.stripeProduct.skus.data, data => data.attributes.gender)
+    let products = _.groupBy(this.props.data.stripeProduct.skus.data, data => data.attributes.style)
     let image = this.props.data.stripeProduct.images[0].toString()
     this.state = {
-      activeGenders: Object.keys(products),
+      activeStyles: Object.keys(products),
       activeImage: image,
       activeIndex: null,
       activeSizes: [
@@ -242,12 +240,11 @@ class DesignPage extends React.Component {
     this.setState({ activeTabIndex: index})
   }
 
-  handleClick (index, gender) {
+  handleClick (index, style) {
     //sets index to make button selected (blue)
-    //sets state to a filtered array by selected product (currently Gender)
-    // TODO: change from gender to product
+    //sets state to a filtered array by selected product
     this.setState({ activeIndex: index})
-    let filteredProduct = this.props.data.stripeProduct.skus.data.filter((product) => product.attributes.gender.includes(gender))
+    let filteredProduct = this.props.data.stripeProduct.skus.data.filter(product => product.attributes.style.includes(style))
     let image = _.groupBy(filteredProduct, data => data.image)
     return this.setState({
       activeSizes: filteredProduct,
@@ -276,10 +273,11 @@ class DesignPage extends React.Component {
   }
 
   render () {
+    const product = this.props.data.stripeProduct
     return (
       <div>
         <Helmet
-          title={this.props.data.site.siteMetadata.title}
+          title={this.props.data.site.siteMetadata.name}
           meta={[
             { name: 'description', content: 'Sample' },
             { name: 'keywords', content: 'sample, something' }
@@ -307,11 +305,11 @@ class DesignPage extends React.Component {
                 mb={3}
                 is={'h1'}
                 fontSize={3}
-                name={this.props.data.stripeProduct.name}
+                children={product.name}
               />
               <Text
                 mb={4}
-                children={this.props.data.stripeProduct.description}
+                children={product.description}
               />
               <Text
                 mb={4}
@@ -332,10 +330,10 @@ class DesignPage extends React.Component {
                 mt={4}
                 mb={1}
               >
-                {this.state.activeGenders.map((activeGender, index) => (
-                  <GenderButton
+                {this.state.activeStyles.map((activeStyle, index) => (
+                  <StyleButton
                     showWarning={this.state.showWarning}
-                    gender={activeGender}
+                    style={activeStyle}
                     key={index}
                     index={index}
                     onClick={this.handleClick}
@@ -359,7 +357,7 @@ class DesignPage extends React.Component {
               </CustomSelect>
               <Link
                 color={'blue'}
-                to={'/designs/' + this.props.data.stripeProduct.slug + '#size-guide'}
+                to={'/designs/' + product.slug + '#size-guide'}
                 onClick={this.handleLinkClick}
               >
                 <Text
@@ -393,8 +391,8 @@ class DesignPage extends React.Component {
                      this.state.isSelected ? (
                       <CustomStripeCheckout
                         panelLabel='BUY NOW'
-                        description={this.props.data.stripeProduct.size + ' ' + this.props.data.stripeProduct.gender + ' ' + this.props.data.stripeProduct.name}
-                        amount={2999}
+                        description={product.size + ' ' + product.style + ' ' + product.name}
+                        amount={this.state.activeSizes[0].price}
                         currency='gbp'
                         stripeKey={process.env.STRIPE_PUBLIC_KEY}
                         shippingAddress
@@ -404,8 +402,8 @@ class DesignPage extends React.Component {
                         reconfigureOnUpdate
                         triggerEvent={'onClick'}
                         skuId={this.state.activeSkuId}
-                        name='Call of the Brave'
-                        slug={this.props.data.stripeProduct.slug}
+                        name={this.props.data.site.siteMetadata.name}
+                        slug={product.slug}
                       />
                     ) : (
                       <CustomButton
@@ -424,7 +422,7 @@ class DesignPage extends React.Component {
                   <Small
                     ml={3}
                     fontSize={3}
-                    children='£29.99'
+                    children={'£' + Number(this.state.activeSizes[0].price)/100}
                   />
                 </Box>
               </Flex>
@@ -445,35 +443,6 @@ class DesignPage extends React.Component {
                 mb={1}
                 children='Free delivery &amp; returns on all UK orders'
               />
-              // TODO: add share functionality
-              <Text
-                my={4}
-              >
-                Share:&nbsp;
-                <CustomLinkButton>
-                  <FontAwesomeIcon
-                    size={'2x'}
-                    pack='fab'
-                    name='twitter'
-                    transform='shrink-1 left-4'
-                  />
-                </CustomLinkButton>
-                <CustomLinkButton>
-                  <FontAwesomeIcon
-                    size={'2x'}
-                    pack='fab'
-                    name='facebook-f'
-                    transform='shrink-1 left-1'
-                  />
-                </CustomLinkButton>
-                <CustomLinkButton>
-                  <FontAwesomeIcon
-                    size={'2x'}
-                    iconDefinition={faLink}
-                    transform='shrink-3 left-4'
-                  />
-                </CustomLinkButton>
-              </Text>
             </Box>
           </Flex>
         </Container>
@@ -714,14 +683,10 @@ export const query = graphql`
           price
           image
           attributes {
-            size
             artist
-            age
-            brand
-            style
             colour
-            gender
-            material
+            size
+            style
           }
         }
       }

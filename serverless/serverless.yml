@@ -47,6 +47,20 @@ functions:
           path: charge
           method: post
           cors: false
+  createProduct:
+    handler: functions/createProduct.handler
+    events:
+      - http:
+          path: product
+          method: post
+          cors: false
+  createSku:
+    handler: functions/createSku.handler
+    events:
+      - http:
+          path: sku
+          method: post
+          cors: false
   create:
     handler: functions/createNote.main
     events:

@@ -1,4 +1,6 @@
 import React from 'react'
+import styled from 'styled-components'
+import colors from '../layouts/index.js'
 import FooterNav from './footer-nav.js'
 import MailingListSignUp from './mailing-list-sign-up.js'
 
@@ -9,8 +11,8 @@ import {
 
 const Footer = props => (
   <Flex
-    bg='black'
     wrap
+    bg={'black'}
   >
     <Box
       ml={[2, 5, 5]}

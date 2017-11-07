@@ -8,7 +8,7 @@ import Cta from '../components/cta'
 import Quote from '../components/quote'
 import QuoteAttribute from '../components/quote-attribute'
 import Benefits from '../components/benefits'
-import Logos from '../components/logos.js'
+import Logos from '../components/logos'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 

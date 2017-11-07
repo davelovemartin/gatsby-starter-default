@@ -15,6 +15,8 @@ import {
   faBars
 } from '@fortawesome/fontawesome-free-solid'
 
+const _ = require(`lodash`)
+
 const CustomFixed = styled(Fixed)`
   z-index: 2;
 `
@@ -63,8 +65,8 @@ class Navbar extends React.Component {
                 />
               </NavLink>
             )).value()}
-            {this.props.isAuthenticated ?
-              <CustomLink
+            {this.props.isAuthenticated
+              ? <CustomLink
                 to='/start/'
               >
                 <Button ml={3}
@@ -72,8 +74,8 @@ class Navbar extends React.Component {
                   >
                   Join Us
                 </Button>
-              </CustomLink> :
-              <NavLink
+              </CustomLink>
+              : <NavLink
                 children='Sign out'
                 onClick={this.handleSignOutClick}
                 is='div'
