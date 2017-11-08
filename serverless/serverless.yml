@@ -61,6 +61,13 @@ functions:
           path: sku
           method: post
           cors: false
+  deleteSku:
+    handler: functions/deleteSku.handler
+    events:
+      - http:
+          path: sku
+          method: delete
+          cors: false
   create:
     handler: functions/createNote.main
     events:

@@ -34,11 +34,17 @@ class Thankyou extends React.Component {
           <RowWrapFlex>
             <Box
               mb={5}
+              width={'540px'}
             >
               <Text
                 mb={2}
               >
-                Your order will be processed and will be with you within 10 days.
+                Your order will be processed and should be with you within 10 days.
+                </Text>
+                <Text
+                  mb={2}
+                >
+                We have sent an email to confirm this but just in case take a note of your order number: {this.props.history.location.state.order} and quote this in any correspondence.
               </Text>
               {_.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'c6eVLdFcRfUOmAEEgkiOeui']).map(({node}) => (
                 <Img

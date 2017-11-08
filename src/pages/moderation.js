@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Heading,
+  Select,
   Text
 } from 'rebass'
 
@@ -12,6 +13,12 @@ var _ = require('lodash')
 class Moderation extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      productToDelete: 'Select Product',
+      skuArray: null
+    }
+    this.handleSkuDelete = this.handleSkuDelete.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleProductSubmit = this.handleProductSubmit.bind(this)
     this.handleSkuSubmit = this.handleSkuSubmit.bind(this)
   }
@@ -45,6 +52,17 @@ class Moderation extends React.Component {
     console.log(skuData)
   }
 
+  async deleteSku (id) {
+    const res = await fetch(process.env.STRIPE_DELETE_SKU_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        id: id
+      })
+    })
+    const skuDeleteData = await res.json()
+    console.log(skuDeleteData)
+  }
+
   handleProductSubmit (e) {
     e.preventDefault()
     let data = _.filter(this.props.data.allContentfulDesign.edges, ['node.moderated', null])
@@ -67,7 +85,22 @@ class Moderation extends React.Component {
     }
   }
 
+  handleSelectChange (e) {
+    this.setState({
+      productToDelete: e.target.value
+    })
+  }
+
+  handleSkuDelete (e) {
+    e.preventDefault()
+    let skusToDelete = _.filter(this.props.data.allStripeProduct.edges, ['node.id', this.state.productToDelete])
+    for (let sku of skusToDelete[0].node.skus.data) {
+      this.deleteSku(sku.id)
+    }
+  }
+
   render () {
+    console.log(this.props.data.allStripeProduct.edges)
     return (
       <div>
         <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
@@ -96,6 +129,25 @@ class Moderation extends React.Component {
             children='Create Skus'
             onClick={this.handleSkuSubmit}
           />
+          <br />
+          <form onSubmit={this.handleSkuDelete}>
+            <Select
+              value={this.state.productToDelete}
+              onChange={this.handleSelectChange}
+            >
+              {this.props.data.allStripeProduct.edges.map(({node}) => (
+                <option
+                  key={node.id}
+                  value={node.id}
+                  children={node.name}
+                />
+            ))}
+            </Select>
+            <input
+              value='Delete Product'
+              type='submit'
+            />
+          </form>
         </Container>
       </div>
     )
@@ -144,6 +196,19 @@ query ModerationQuery {
         href
         position
         text
+      }
+    }
+  }
+  allStripeProduct {
+    edges {
+      node {
+        id
+        name
+        skus {
+          data {
+            id
+          }
+        }
       }
     }
   }

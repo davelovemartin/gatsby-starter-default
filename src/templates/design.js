@@ -1,5 +1,6 @@
 import React from 'react'
 import Link, { navigateTo }  from 'gatsby-link'
+import createHistory from 'history/createBrowserHistory'
 import Img from 'gatsby-image'
 import StripeCheckout from 'react-stripe-checkout'
 import Helmet from 'react-helmet'
@@ -138,29 +139,32 @@ class CustomStripeCheckout extends React.Component {
     })
     // The await operator is used to wait for a Promise. It can only be used inside an async function.
     const data = await res.json()
-    const orderNo = data.order.id
-    const slug = this.props.slug
-    this.props.history.push(`/thankyou?order=${orderNo}`)
+    const history = createHistory()
+    history.push({
+      pathname: '/thankyou/',
+      state: { order: data.order.id }
+    })
+    history.go()
   }
   render () {
     const skuId = this.props.skuId;
     const currency = this.props.currency;
     return <StripeCheckout
-      panelLabel={this.props.panelLabel}
-      description={this.props.description}
       amount={Number(this.props.amount)}
-      currency={this.props.currency}
-      stripeKey={this.props.stripeKey}
-      shippingAddress={this.props.shippingAddress}
       billingAddress={this.props.billingAddress}
-      zipCode={this.props.zipCode}
+      currency={this.props.currency}
+      description={this.props.description}
       locale={this.props.locale}
-      token={this.onToken}
-      reconfigureOnUpdate={this.props.reconfigureOnUpdate}
-      triggerEvent={this.props.triggerEvent}
       name={this.props.name}
+      panelLabel={this.props.panelLabel}
+      reconfigureOnUpdate={this.props.reconfigureOnUpdate}
+      shippingAddress={this.props.shippingAddress}
       skuId={this.props.skuId}
       slug={this.props.slug}
+      stripeKey={this.props.stripeKey}
+      token={this.onToken}
+      triggerEvent={this.props.triggerEvent}
+      zipCode={this.props.zipCode}
     >
       <CustomButton
         mr={1}
@@ -199,6 +203,7 @@ const CustomSelect = styled(Select)`
 class DesignPage extends React.Component {
   constructor (props) {
     super(props)
+
     let products = _.groupBy(this.props.data.stripeProduct.skus.data, data => data.attributes.style)
     let image = this.props.data.stripeProduct.images[0].toString()
     this.state = {
@@ -390,20 +395,20 @@ class DesignPage extends React.Component {
                   {
                      this.state.isSelected ? (
                       <CustomStripeCheckout
-                        panelLabel='BUY NOW'
-                        description={product.size + ' ' + product.style + ' ' + product.name}
                         amount={this.state.activeSizes[0].price}
-                        currency='gbp'
-                        stripeKey={process.env.STRIPE_PUBLIC_KEY}
-                        shippingAddress
                         billingAddress
-                        zipCode
+                        currency='gbp'
+                        description={product.name}
                         locale='en'
-                        reconfigureOnUpdate
-                        triggerEvent={'onClick'}
-                        skuId={this.state.activeSkuId}
                         name={this.props.data.site.siteMetadata.name}
+                        panelLabel='BUY NOW'
+                        reconfigureOnUpdate
+                        shippingAddress
+                        skuId={this.state.activeSkuId}
                         slug={product.slug}
+                        stripeKey={process.env.STRIPE_PUBLIC_KEY}
+                        triggerEvent={'onClick'}
+                        zipCode
                       />
                     ) : (
                       <CustomButton

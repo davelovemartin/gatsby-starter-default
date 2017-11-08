@@ -25,6 +25,7 @@
     "gatsby-transformer-remark": "^1.7.17",
     "gatsby-transformer-sharp": "^1.6.12",
     "hidden-styled": "^1.0.0-0",
+    "history": "^4.7.2",
     "net": "^1.0.2",
     "palx": "^1.0.2",
     "react-form-with-constraints": "^0.6.2",
