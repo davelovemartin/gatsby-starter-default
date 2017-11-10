@@ -44,7 +44,7 @@ class Thankyou extends React.Component {
                 <Text
                   mb={2}
                 >
-                We have sent an email to confirm this but just in case take a note of your order number: {this.props.history.location.state.order} and quote this in any correspondence.
+                We have sent an email to confirm this but just in case take a note of your order number: {this.props.history.location.state.orderId} and quote this in any correspondence.
               </Text>
               {_.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'c6eVLdFcRfUOmAEEgkiOeui']).map(({node}) => (
                 <Img

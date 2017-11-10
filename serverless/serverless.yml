@@ -54,6 +54,13 @@ functions:
           path: product
           method: post
           cors: false
+  sendOrderEmail:
+    handler: functions/sendOrderEmail.handler
+    events:
+      - http:
+          path: email
+          method: post
+          cors: false
   createSku:
     handler: functions/createSku.handler
     events:

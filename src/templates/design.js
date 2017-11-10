@@ -114,37 +114,52 @@ class CustomStripeCheckout extends React.Component {
   }
 
   async onToken (token, args) {
-    const res = await fetch(process.env.STRIPE_CHECKOUT_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        token,
-        order: {
-          currency: this.props.currency,
-          items: [
-            {
-              type: 'sku',
-              parent: this.props.skuId
-            }
-          ],
-          shipping: {
-            name: args.shipping_name,
-            address: {
-              line1: args.shipping_address_line1,
-              city: args.city,
-              postal_code: args.shipping_address_zip
+    try {
+      let response = await fetch(process.env.STRIPE_CHECKOUT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          token,
+          order: {
+            currency: this.props.currency,
+            items: [
+              {
+                type: 'sku',
+                parent: this.props.skuId
+              }
+            ],
+            shipping: {
+              name: args.shipping_name,
+              address: {
+                line1: args.shipping_address_line1,
+                city: args.city,
+                postal_code: args.shipping_address_zip
+              }
             }
           }
-        }
+        })
       })
-    })
-    // The await operator is used to wait for a Promise. It can only be used inside an async function.
-    const data = await res.json()
-    const history = createHistory()
-    history.push({
-      pathname: '/thankyou/',
-      state: { order: data.order.id }
-    })
-    history.go()
+
+      // The await operator is used to wait for a Promise. It can only be used inside an async function.
+      let orderJson = await response.json()
+      console.log(orderJson.order.id + orderJson.order.email)
+      let mailResponse = await fetch(process.env.SES_SEND_EMAIL_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: `${orderJson.order.email}`,
+          id : `${orderJson.order.id}`
+        })
+      })
+      let email = await mailResponse.json(orderJson)
+      const history = createHistory()
+      history.push({
+        pathname: '/thankyou/',
+        state: { orderId: orderJson.order.id }
+      })
+      history.go()
+    } catch(err) {
+      // catches errors both in fetch and response.json
+      alert(err);
+    }
   }
   render () {
     const skuId = this.props.skuId;
