@@ -5,6 +5,7 @@ import Header from '../components/header'
 import About from '../components/about'
 import Content from '../components/content'
 import Cta from '../components/cta'
+import SignUpPrompt from '../components/sign-up-prompt'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 
@@ -39,6 +40,7 @@ class Page extends React.Component {
           callToAction={page.callToAction}
           callToActionLink={'/' + page.callToActionLink + '/'}
         />
+        <SignUpPrompt />
         <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>

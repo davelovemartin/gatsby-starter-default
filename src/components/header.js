@@ -22,6 +22,12 @@ const CustomImg = styled(Img)`
 const P = styled.p`
   margin-top: 96px;
   text-align: center;
+  @media (max-width: 64em) {
+    margin-top: 48px;
+  }
+  @media (max-width: 48em) {
+    margin-top: 24px;
+  }
 `
 
 const Header = props => (
@@ -34,20 +40,19 @@ const Header = props => (
       top
       left={0}
       right={0}
-      pt={5}
+      pt={[0, 4, 5, 5]}
       width={'100%'}
     >
       <Logo />
       <Heading
-        mt={3}
-        fontSize={[2, 3, 4]}
+        fontSize={[1, 2, 3, 4]}
         children={props.title}
         color={'white'}
         center
       />
       <Subhead
-        mt={3}
-        fontSize={[0, 1, 2]}
+        mt={[0, 1, 2, 3]}
+        fontSize={[0, 1, 2, 3]}
         color={'white'}
         children={props.subtitle}
         center
@@ -61,6 +66,7 @@ const Header = props => (
           delay={200}
         >
           <Button
+            fontSize={[0, 1, 2, 3]}
             children='read more'
             bg={'base'}
           />

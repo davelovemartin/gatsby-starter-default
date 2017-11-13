@@ -8,6 +8,8 @@ import Backbar from '../components/backbar'
 import Quote from '../components/quote'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
+import SignUpPrompt from '../components/sign-up-prompt'
+  
 import {
   Box,
   Button,
@@ -98,10 +100,10 @@ class CustomTabItem extends React.Component {
   handleTabClick = () => this.props.onClick(this.props.tabIndex)
   render () {
     return <ChromeTabItem
-      tabIndex={this.props.tabIndex}
       active={this.props.active}
       children={this.props.children}
       onClick={this.handleTabClick}
+      tabIndex={this.props.tabIndex}
     />
   }
 }
@@ -186,7 +188,7 @@ class CustomStripeCheckout extends React.Component {
         bg={'base'}
         px={4}
         py={1}
-        w={'100%'}
+        w={1}
         children={this.props.panelLabel}
       />
     </StripeCheckout>
@@ -307,10 +309,12 @@ class DesignPage extends React.Component {
         <Container
           maxWidth={'90%'}
         >
-          <Flex>
+          <Flex
+            wrap
+          >
             <Box
               mt={5}
-              w={[1, 1 / 2, 2 / 3]}
+              w={[1, 1, 1 / 2, 2 / 3]}
             >
               <Image
                 src={this.state.activeImage}
@@ -319,12 +323,12 @@ class DesignPage extends React.Component {
             </Box>
             <Box
               mt={5}
-              w={[1, 1 / 2, 1 / 3]}
+              w={[1, 1, 1 / 2, 1 / 3]}
             >
               <Subhead
                 mb={3}
                 is={'h1'}
-                fontSize={3}
+                fontSize={[1, 2, 3, 4]}
                 children={product.name}
               />
               <Text
@@ -429,9 +433,10 @@ class DesignPage extends React.Component {
                       <CustomButton
                         mr={1}
                         bg={'base'}
-                        px={4}
+                        px={[1, 2, 3, 4]}
                         py={1}
-                        w={'100%'}
+                        w={1}
+                        fontSize={2}
                         children='BUY NOW'
                         onClick={this.handleDeactivatedCheckoutClick}
                       />
@@ -460,7 +465,7 @@ class DesignPage extends React.Component {
                 </Flex>
               }
               <Text
-                mb={1}
+                mb={5}
                 children='Free delivery &amp; returns on all UK orders'
               />
             </Box>
@@ -472,31 +477,35 @@ class DesignPage extends React.Component {
         <Container>
           <CustomTabs
             id='size-guide'
-            m={'auto'}
+            mx={'auto'}
           >
             <CustomTabItem
               active={this.state.activeTabIndex === 0}
-              tabIndex={0}
-              onClick={this.handleTabClick}
               children={'The Mission'}
+              fontSize={[1, 2, 3, 4]}
+              onClick={this.handleTabClick}
+              tabIndex={0}
             />
             <CustomTabItem
               active={this.state.activeTabIndex === 2}
-              tabIndex={2}
-              onClick={this.handleTabClick}
               children={'The T-Shirt'}
+              fontSize={[1, 2, 3, 4]}
+              onClick={this.handleTabClick}
+              tabIndex={2}
             />
             <CustomTabItem
               active={this.state.activeTabIndex === 3}
-              tabIndex={3}
-              onClick={this.handleTabClick}
               children={'Size Guide'}
+              fontSize={[1, 2, 3, 4]}
+              onClick={this.handleTabClick}
+              tabIndex={3}
             />
             <CustomTabItem
               active={this.state.activeTabIndex === 4}
-              tabIndex={4}
-              onClick={this.handleTabClick}
               children={'Shipping and Returns'}
+              fontSize={[1, 2, 3, 4]}
+              onClick={this.handleTabClick}
+              tabIndex={4}
             />
           </CustomTabs>
         </Container>

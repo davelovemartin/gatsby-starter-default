@@ -7,6 +7,7 @@ import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 import Helmet from 'react-helmet'
 import RowWrapFlex from '../components/row-wrap-flex'
+import SignUpPrompt from '../components/sign-up-prompt'
 
 import {
   BackgroundImage,
@@ -68,6 +69,7 @@ class Designs extends React.Component {
           ))}
           </RowWrapFlex>
         </Container>
+        <SignUpPrompt />
         <Footer navigation={designs.allContentfulNavigation.edges} />
         <Copyright />
       </div>

@@ -15,18 +15,22 @@ const CustomButton = styled(Button)`
 `
 
 const Cta = props => (
-  <Container>
+  <Container
+    pb={[3, 3, 3, 4]}
+    mb={[3, 3, 3, 4]}
+  >
     <Flex>
       <Box
         mx='auto'
-        mb={5}
+        pb={[3, 3, 3, 4]}
+        mb={[3, 3, 3, 4]}
       >
         <Link
           to={props.callToActionLink}
         >
           <CustomButton
             bg='base'
-            fontSize={[1, 2, 3]}
+            fontSize={[1, 2, 3, 4]}
             children={props.callToAction}
           />
         </Link>

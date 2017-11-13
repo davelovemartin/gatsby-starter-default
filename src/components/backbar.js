@@ -32,6 +32,7 @@ class Backbar extends React.Component {
             <FontAwesomeIcon iconDefinition={faArrowLeft} />
             <Text
               pl={1}
+              fontSize={2}
               children='back to the shop'
             />
           </NavLink>

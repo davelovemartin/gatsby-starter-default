@@ -40,11 +40,15 @@ export const colors = Object.assign({}, flattened, {
 const TemplateWrapper = props => (
   <Provider
     theme={{
+      breakpoints: [ 32, 48, 64, 80 ],
       font: '"FuturaStd-Book", sans-serif',
       fontSizes: [
-        12, 16, 24, 32, 48, 64
+        9, 12, 16, 24, 32, 48, 64
       ],
-      colors: colors
+      colors: colors,
+      radius: 4,
+      space: [ 0, 4, 8, 16, 32, 64, 128 ],
+      weights: [ 400, 700 ]
     }}
   >
     {props.children()}

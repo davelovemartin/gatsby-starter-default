@@ -20,7 +20,7 @@ const Content = props => (
       w={[320, 540, 640]}
     >
       <CustomText
-        f={1}
+        f={2}
         children={props.children}
       />
     </Box>

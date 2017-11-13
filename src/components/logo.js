@@ -3,8 +3,15 @@ import styled from 'styled-components'
 
 const Svg = styled.svg`
   margin: 2rem auto;
-  width: 25%;
-  @media (min-width: 32em) { width: 12.5%; }
+  width: 12.5%;
+  @media (max-width: 64em) {
+    width: 10%;
+    margin-bottom: 0;
+  }
+  @media (max-width: 48em) {
+    width: 7.5%;
+    margin-bottom: 0;
+  }
 `
 const P = styled.p`
   text-align: center;

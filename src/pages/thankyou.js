@@ -6,6 +6,7 @@ import AltHeader from '../components/alt-header'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 import Helmet from 'react-helmet'
+import SignUpPrompt from '../components/sign-up-prompt'
 
 import {
   Box,
@@ -56,6 +57,7 @@ class Thankyou extends React.Component {
             </Box>
           </RowWrapFlex>
         </Container>
+        <SignUpPrompt />
         <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>

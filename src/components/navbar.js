@@ -31,9 +31,6 @@ class Navbar extends React.Component {
     super(props)
     this.state = { open: false }
   }
-  handleSignOutClick () {
-    this.setState({ isAuthenticated: false })
-  }
   render () {
     return (
       <CustomFixed
@@ -47,6 +44,7 @@ class Navbar extends React.Component {
             <NavLink
               mr='auto'
               is='div'
+              fontSize={2}
             >
               <CustomLink
                 to={'/index/'}
@@ -58,6 +56,7 @@ class Navbar extends React.Component {
               <NavLink
                 key={node.order}
                 is='div'
+                fontSize={2}
               >
                 <CustomLink
                   to={'/' + node.href + '/'}
@@ -65,22 +64,13 @@ class Navbar extends React.Component {
                 />
               </NavLink>
             )).value()}
-            {this.props.isAuthenticated
-              ? <CustomLink
-                to='/start/'
+            <Button
+              ml={3}
+              bg='base'
+              fontSize={2}
               >
-                <Button ml={3}
-                  bg='base'
-                  >
-                  Join Us
-                </Button>
-              </CustomLink>
-              : <NavLink
-                children='Sign out'
-                onClick={this.handleSignOutClick}
-                is='div'
-              />
-            }
+              Join Us
+            </Button>
           </Toolbar>
         </Hide>
         <Hide sm md lg>

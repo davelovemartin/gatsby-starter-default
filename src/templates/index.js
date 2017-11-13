@@ -6,9 +6,9 @@ import About from '../components/about'
 import Content from '../components/content'
 import Cta from '../components/cta'
 import Quote from '../components/quote'
-import QuoteAttribute from '../components/quote-attribute'
 import Benefits from '../components/benefits'
 import Logos from '../components/logos'
+import SignUpPrompt from '../components/sign-up-prompt'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 
@@ -22,7 +22,6 @@ class Index extends React.Component {
     const page = this.props.data.contentfulPage
     const about = checkElementDataExists(About, page.about)
     const quote = checkElementDataExists(Quote, page.quote)
-    const quoteAttribute = checkElementDataExists(QuoteAttribute, page.quoteAttribute)
     const content = checkElementDataExists(Content, page.content)
 
     return (
@@ -47,7 +46,6 @@ class Index extends React.Component {
           callToActionLink={'/' + page.callToActionLink + '/'}
         />
         {quote}
-        {quoteAttribute}
         <Benefits
           features={page.features.features}
         />
@@ -56,6 +54,7 @@ class Index extends React.Component {
           callToActionLink={'/' + page.callToActionLink + '/'}
         />
         <Logos image={page.logos.sizes} />
+        <SignUpPrompt />
         <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>
