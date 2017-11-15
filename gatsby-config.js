@@ -3,7 +3,12 @@ module.exports = {
     title: `Call of the Brave`
   },
   plugins: [
-    `gatsby-plugin-lodash`,
+    {
+      resolve: `gatsby-plugin-lodash`,
+      options: {
+        disabledFeatures: [`shorthands`, `cloning`, `currying`, `caching`, `collections`, `guards`, `metadata`, `deburring`, `unicode`, `memoizing`, `coercions`, `flattening`, `paths`, `placeholders`]
+      }
+    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,

@@ -40,6 +40,13 @@ functions:
           path: mail
           method: post
           cors: false
+  checkDiscountCode:
+    handler: functions/checkDiscountCode.handler
+    events:
+      - http:
+          path: code
+          method: post
+          cors: false
   createCharge:
     handler: functions/createCharge.handler
     events:

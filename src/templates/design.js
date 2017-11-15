@@ -9,7 +9,7 @@ import Quote from '../components/quote'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 import SignUpPrompt from '../components/sign-up-prompt'
-  
+
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import {
   Flex,
   Heading,
   Image,
+  Input,
   Select,
   Small,
   Subhead,
@@ -123,6 +124,7 @@ class CustomStripeCheckout extends React.Component {
           token,
           order: {
             currency: this.props.currency,
+            coupon: this.props.coupon,
             items: [
               {
                 type: 'sku',
@@ -143,7 +145,6 @@ class CustomStripeCheckout extends React.Component {
 
       // The await operator is used to wait for a Promise. It can only be used inside an async function.
       let orderJson = await response.json()
-      console.log(orderJson.order.id + orderJson.order.email)
       let mailResponse = await fetch(process.env.SES_SEND_EMAIL_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -169,6 +170,7 @@ class CustomStripeCheckout extends React.Component {
     return <StripeCheckout
       amount={Number(this.props.amount)}
       billingAddress={this.props.billingAddress}
+      coupon={this.props.coupon}
       currency={this.props.currency}
       description={this.props.description}
       locale={this.props.locale}
@@ -238,7 +240,11 @@ class DesignPage extends React.Component {
       ],
       activeSkuId: null,
       activeTabIndex: 0,
+      code: '',
+      coupon: {},
       favColor: 'black',
+      message: 'Got a discount code?',
+      isDiscounted: false,
       isFavorited: false,
       isSelected: false,
       showWarning: false,
@@ -250,6 +256,8 @@ class DesignPage extends React.Component {
     this.handleLinkClick = this.handleLinkClick.bind(this)
     this.handleDeactivatedCheckoutClick = this.handleDeactivatedCheckoutClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleDiscount = this.handleDiscount.bind(this)
+    this.handleDiscountChange = this.handleDiscountChange.bind(this)
   }
 
   favorite (e) {
@@ -293,6 +301,34 @@ class DesignPage extends React.Component {
   handleLinkClick () {
     this.setState({ activeTabIndex: 3})
   }
+
+  async checkDiscountCode (code) {
+    // Backend API url
+    const res = await fetch(process.env.DISCOUNT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        code: code
+      })
+    })
+    const data = await res.json()
+    this.setState({
+      code: '',
+      coupon: data.coupon,
+      message: data.message
+    })
+    data.verified ? this.setState({ isDiscounted: true }) : this.setState({ isDiscounted: false })
+  }
+
+  handleDiscountChange (e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ code: e.target.value })
+  }
+
+  handleDiscount (e) {
+    e.preventDefault()
+    const code = this.state.code
+    this.checkDiscountCode(code)
+  }
+
 
   render () {
     const product = this.props.data.stripeProduct
@@ -414,8 +450,9 @@ class DesignPage extends React.Component {
                   {
                      this.state.isSelected ? (
                       <CustomStripeCheckout
-                        amount={this.state.activeSizes[0].price}
+                        amount={this.state.isDiscounted ? Math.round(this.state.activeSizes[0].price*90)/100 : this.state.activeSizes[0].price}
                         billingAddress
+                        coupon={this.state.coupon}
                         currency='gbp'
                         description={product.name}
                         locale='en'
@@ -444,11 +481,19 @@ class DesignPage extends React.Component {
                   }
                 </Box>
                 <Box width={1 / 2}>
-                  <Small
-                    ml={3}
-                    fontSize={3}
-                    children={'£' + Number(this.state.activeSizes[0].price)/100}
-                  />
+                  {
+                    this.state.isDiscounted
+                    ? <Small
+                        ml={3}
+                        fontSize={3}
+                        children={'£' + Math.round(Number(this.state.activeSizes[0].price)/100*90)/100}
+                      />
+                    : <Small
+                        ml={3}
+                        fontSize={3}
+                        children={'£' + Number(this.state.activeSizes[0].price)/100}
+                      />
+                  }
                 </Box>
               </Flex>
               { this.state.showWarning &&
@@ -464,10 +509,48 @@ class DesignPage extends React.Component {
                   </Box>
                 </Flex>
               }
-              <Text
-                mb={5}
-                children='Free delivery &amp; returns on all UK orders'
-              />
+              <Flex
+                mt={3}
+              >
+                <Box width={1}>
+                  <Text
+                    mb={4}
+                    children='Free delivery &amp; returns on all UK orders'
+                  />
+                </Box>
+              </Flex>
+              <Flex
+                mt={3}
+              >
+                <Box width={1}>
+                  <Text
+                    children={this.state.message}
+                  />
+                </Box>
+              </Flex>
+              <Flex
+                mb={4}
+                mt={3}
+              >
+                <Box
+                  width={1 / 2}
+                  mr={1}
+                >
+                  <Input
+                    width={1}
+                    value={this.state.code}
+                    onChange={this.handleDiscountChange}
+                  />
+                </Box>
+                <Box width={1 / 2}>
+                  <Button
+                    width={1}
+                    children={'APPLY DISCOUNT'}
+                    onClick={this.handleDiscount}
+                    disabled={this.state.isDiscounted}
+                  />
+                </Box>
+              </Flex>
             </Box>
           </Flex>
         </Container>

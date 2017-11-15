@@ -14,6 +14,7 @@ const CustomBlockquote = styled(Blockquote)`
 const Quote = props => (
   <Banner
     bg={'blue5'}
+    my={5}
   >
     <Container
     >

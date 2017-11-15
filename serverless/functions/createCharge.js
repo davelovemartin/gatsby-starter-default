@@ -11,13 +11,15 @@ module.exports.handler = (event, context, callback) => {
   const currency = requestBody.order.currency
   const items = requestBody.order.items
   const shipping = requestBody.order.shipping
+  const coupon = requestBody.order.coupon
 
   // Create order
   return stripe.orders.create({
+    email: email,
+    coupon: coupon.id,
     currency: currency,
     items: items,
-    shipping: shipping,
-    email: email
+    shipping: shipping
   }).then((order) => {
     // Pay order with received token (from Stripe Checkout)
     return stripe.orders.pay(order.id, {

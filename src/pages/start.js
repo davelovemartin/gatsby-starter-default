@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 import Navbar from '../components/navbar'
 import AltHeader from '../components/alt-header'
 import SignIn from '../components/sign-in'
+import SignUpPrompt from '../components/sign-up-prompt'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 
@@ -31,12 +32,21 @@ class StartPage extends React.Component {
         <Text>
           Why? There needs to be a section compelling the reader to Join
         </Text>
+        <Text>
+          Whilst we are building the crowdfunding part of the website...
+        </Text>
+        <Text>
+          Ways to help:
+            Follow and Share.
+            Join our Call of the Brave Champions!
+        </Text>
         {this.props.isAuthenticated
           ? <SignIn />
           : <Text
             children='you signed in'
             />
         }
+        <SignUpPrompt />
         <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
       </div>
