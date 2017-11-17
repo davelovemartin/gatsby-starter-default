@@ -1,18 +1,13 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import styled from 'styled-components'
+import CustomButton from './custom-button'
 
 import {
   Box,
-  Button,
   Flex,
   Container
 } from 'rebass'
 
-const CustomButton = styled(Button)`
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25),
-              0 2px 10px 0 rgba(0,0,0,0.1);
-`
 
 const Cta = props => (
   <Container
