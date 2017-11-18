@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'gatsby-link'
+import CustomButton from './custom-button'
 import {
   Button,
   Drawer,
@@ -64,13 +65,15 @@ class Navbar extends React.Component {
                 />
               </NavLink>
             )).value()}
-            <Button
+            <CustomButton
               ml={3}
               bg='base'
               fontSize={2}
+              is='a'
+              href='/start/'
               >
               Join Us
-            </Button>
+            </CustomButton>
           </Toolbar>
         </Hide>
         <Hide sm md lg>
@@ -111,7 +114,7 @@ class Navbar extends React.Component {
                   />
                 </NavLink>
               )).value()}
-              <Button
+              <CustomButton
                 mt={4}
                 ml={3}
                 bg='base'
@@ -119,7 +122,7 @@ class Navbar extends React.Component {
                 href='/start/'
               >
                 Join Us
-              </Button>
+              </CustomButton>
             </Flex>
           </Drawer>
         </Hide>

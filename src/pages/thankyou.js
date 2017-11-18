@@ -5,7 +5,7 @@ import RowWrapFlex from '../components/row-wrap-flex'
 import AltHeader from '../components/alt-header'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
-import Helmet from 'react-helmet'
+import CustomHelmet from '../components/helmet'
 import SignUpPrompt from '../components/sign-up-prompt'
 
 import {
@@ -17,15 +17,22 @@ import {
 var _ = require('lodash')
 
 class Thankyou extends React.Component {
+  constructor ({ props, children, location }) {
+    super({ props, children, location })
+  }
   render () {
     return (
       <div>
-        <Helmet
+        <CustomHelmet
           title={this.props.data.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' }
-          ]}
+          description={this.props.data.site.siteMetadata.description}
+          googleSiteVerification={this.props.data.site.siteMetadata.googleSiteVerification}
+          fbAppId={this.props.data.site.siteMetadata.fbAppId}
+          url={this.props.data.site.siteMetadata.url}
+          facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
+          twitter={this.props.data.site.siteMetadata.twitter}
+          preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
+          location={location.pathname}
         />
         <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
         <AltHeader

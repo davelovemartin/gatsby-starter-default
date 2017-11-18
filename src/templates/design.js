@@ -3,7 +3,7 @@ import Link, { navigateTo }  from 'gatsby-link'
 import createHistory from 'history/createBrowserHistory'
 import Img from 'gatsby-image'
 import StripeCheckout from 'react-stripe-checkout'
-import Helmet from 'react-helmet'
+import CustomHelmet from '../components/helmet'
 import Backbar from '../components/backbar'
 import Quote from '../components/quote'
 import Copyright from '../components/copyright'
@@ -334,12 +334,16 @@ class DesignPage extends React.Component {
     const product = this.props.data.stripeProduct
     return (
       <div>
-        <Helmet
-          title={this.props.data.site.siteMetadata.name}
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' }
-          ]}
+        <CustomHelmet
+          title={this.props.data.site.siteMetadata.title}
+          description={this.props.data.site.siteMetadata.description}
+          googleSiteVerification={this.props.data.site.siteMetadata.googleSiteVerification}
+          fbAppId={this.props.data.site.siteMetadata.fbAppId}
+          url={this.props.data.site.siteMetadata.url}
+          facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
+          twitter={this.props.data.site.siteMetadata.twitter}
+          preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
+          location={location.pathname}
         />
         <Backbar />
         <Container
@@ -769,6 +773,11 @@ export const query = graphql`
     site {
       siteMetadata {
         title
+        description
+        googleSiteVerification
+        fbAppId
+        twitter
+        url
       }
     }
     allContentfulNavigation {

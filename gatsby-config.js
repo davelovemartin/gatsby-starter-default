@@ -1,12 +1,23 @@
 module.exports = {
   siteMetadata: {
-    title: `Call of the Brave`
+    title: `Call of the Brave`,
+    description: `Call of the Brave | ethical t-shirts | raising money for people affected by unfair fashion`,
+    googleSiteVerification: `rVmZehAW-IN8rTPkf-ZwX-J3yfSW6zStVFQpPdAYtXI`,
+    fbAppId: `1544287262531450`,
+    twitter: `@callofthebrave`,
+    url: `https://www.callofthebrave.org`
   },
   plugins: [
     {
       resolve: `gatsby-plugin-lodash`,
       options: {
         disabledFeatures: [`shorthands`, `cloning`, `currying`, `caching`, `collections`, `guards`, `metadata`, `deburring`, `unicode`, `memoizing`, `coercions`, `flattening`, `paths`, `placeholders`]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: 'UA-36478003-5'
       }
     },
     `gatsby-plugin-react-helmet`,

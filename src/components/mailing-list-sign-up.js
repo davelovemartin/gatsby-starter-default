@@ -85,7 +85,7 @@ class MailingListSignUp extends React.Component {
           <FieldFeedback when='typeMismatch'>
             <Text
               p={2}
-              color='red.5'
+              color='red5'
               children='Invalid email address.'
             />
           </FieldFeedback>

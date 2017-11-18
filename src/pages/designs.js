@@ -5,7 +5,7 @@ import AltHeader from '../components/alt-header'
 import styled from 'styled-components'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
-import Helmet from 'react-helmet'
+import CustomHelmet from '../components/helmet'
 import RowWrapFlex from '../components/row-wrap-flex'
 import SignUpPrompt from '../components/sign-up-prompt'
 
@@ -26,16 +26,23 @@ const CustomLink = styled(Link)`
 `
 
 class Designs extends React.Component {
+  constructor ({ props, children, location }) {
+    super({ props, children, location })
+  }
   render () {
     const designs = this.props.data
     return (
       <div>
-        <Helmet
-          title={designs.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' }
-          ]}
+        <CustomHelmet
+          title={this.props.data.site.siteMetadata.title}
+          description={this.props.data.site.siteMetadata.description}
+          googleSiteVerification={this.props.data.site.siteMetadata.googleSiteVerification}
+          fbAppId={this.props.data.site.siteMetadata.fbAppId}
+          url={this.props.data.site.siteMetadata.url}
+          facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
+          twitter={this.props.data.site.siteMetadata.twitter}
+          preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
+          location={location.pathname}
         />
         <Navbar navigation={designs.allContentfulNavigation.edges} />
         <AltHeader
