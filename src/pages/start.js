@@ -21,9 +21,6 @@ import {
 var _ = require('lodash')
 
 class StartPage extends React.Component {
-  constructor ({ props, children, location }) {
-    super({ props, children, location })
-  }
   render () {
     return (
       <div>
@@ -36,7 +33,7 @@ class StartPage extends React.Component {
           facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
           twitter={this.props.data.site.siteMetadata.twitter}
           preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
-          location={location.pathname}
+          location={this.props.location.pathname}
         />
         <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
         <AltHeader

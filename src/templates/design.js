@@ -343,7 +343,7 @@ class DesignPage extends React.Component {
           facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
           twitter={this.props.data.site.siteMetadata.twitter}
           preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
-          location={location.pathname}
+          location={this.props.location.pathname}
         />
         <Backbar />
         <Container

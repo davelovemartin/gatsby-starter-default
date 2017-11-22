@@ -13,21 +13,13 @@ import SignUpPrompt from '../components/sign-up-prompt'
 import Copyright from '../components/copyright'
 import Footer from '../components/footer'
 
-class Index extends React.Component {
+var _ = require('lodash')
+
+class ErrorPage extends React.Component {
   constructor ({ props, children, location }) {
     super({ props, children, location })
   }
   render () {
-    function checkElementDataExists (Component, node) {
-      if (node) {
-        return <Component children={node.internal.content} />
-      }
-    }
-    const page = this.props.data.contentfulPage
-    const about = checkElementDataExists(About, page.about)
-    const quote = checkElementDataExists(Quote, page.quote)
-    const content = checkElementDataExists(Content, page.content)
-
     return (
       <div>
         <CustomHelmet
@@ -39,29 +31,46 @@ class Index extends React.Component {
           facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
           twitter={this.props.data.site.siteMetadata.twitter}
           preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
-          location={location.pathname}
+          location={this.props.location.pathname}
         />
         <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
-        <Header
-          title={page.title}
-          subtitle={page.subtitle}
-          image={page.bannerCover.sizes}
+        {_.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'c3vQz6oymeQ6E6SQoeuyiks']).map(({node}) => (
+          <Header
+            key={node.id}
+            title='Wear the change you want to see in the World'
+            subtitle='ethical t-shirts // raising money for people affected by unfair fashion'
+            image={node.sizes}
+          />
+        )).value()}
+        <About
+          children={`Fashion is broken
+      a sweatshop industry has become unstitched
+      Take a stand against fast-fashion with sweatshop-free
+      planet-friendly clothes
+      Join the t-shirt revolution…`}
         />
-        {about}
-        {content}
         <Cta
-          callToAction={page.callToAction}
-          callToActionLink={'/' + page.callToActionLink + '/'}
+          callToAction='ANSWER THE CALL OF THE BRAVE'
+          callToActionLink={'/start/'}
         />
-        {quote}
+        <Quote
+          children={`We're on a mission to empower artists to help people affected by unfair fashion in a way that doesn't cost the Earth`}
+        />
         <Benefits
-          features={page.features.features}
+          features={benefits.features}
         />
         <Cta
-          callToAction={page.callToAction}
-          callToActionLink={'/' + page.callToActionLink + '/'}
+          callToAction={'ANSWER THE CALL OF THE BRAVE'}
+          callToActionLink={'/start/'}
         />
-        <Logos image={page.logos.sizes} />
+        {
+          _.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'y7UXz9AmzuYAOUy8KcgIO']).map(({node}) => (
+            <Logos
+              key={node.id}
+              image={node.sizes}
+            />
+          )).value()
+        }
         <SignUpPrompt />
         <Footer navigation={this.props.data.allContentfulNavigation.edges} />
         <Copyright />
@@ -70,10 +79,27 @@ class Index extends React.Component {
   }
 }
 
-export default Index
+export default ErrorPage
+
+const benefits = {
+	"features": [
+		{
+			"text": "Upload a design, set a time-limit, and start your crowdfunding campaign.",
+			"title": "1. Launch."
+		},
+		{
+			"text": "Share on your social channels, and collect pre-orders for your design.",
+			"title": "2. Share."
+		},
+		{
+			"text": "Sell 10+ t-shirts & we send them out direct to your buyers and pay you.",
+			"title": "3. Get Paid."
+		}
+	]
+}
 
 export const query = graphql`
-  query IndexQuery($slug: String!) {
+  query ErrorPageQuery {
     site {
       siteMetadata {
         title
@@ -84,6 +110,17 @@ export const query = graphql`
         url
       }
     }
+    allContentfulAsset {
+      edges {
+        node {
+          id
+          title
+          sizes(maxHeight: 600) {
+            ...GatsbyContentfulSizes
+          }
+        }
+      }
+    }
     allContentfulNavigation {
       edges {
         node {
@@ -91,52 +128,6 @@ export const query = graphql`
           href
           position
           text
-        }
-      }
-    }
-    contentfulPage(slug: { eq: $slug } ) {
-      slug
-      title
-      subtitle
-      bannerCover{
-        file {
-          url
-        }
-        sizes(maxHeight: 600) {
-          ...GatsbyContentfulSizes
-        }
-      }
-      content {
-        internal {
-          content
-        }
-      }
-      about {
-        internal {
-          content
-        }
-      }
-      quote {
-        internal {
-          content
-        }
-      }
-      quoteAttribute {
-        internal {
-          content
-        }
-      }
-      callToAction
-      callToActionLink
-      features {
-        features {
-          title
-          text
-        }
-      }
-      logos {
-        sizes(maxHeight: 600) {
-          ...GatsbyContentfulSizes
         }
       }
     }

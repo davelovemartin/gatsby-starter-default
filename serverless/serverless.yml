@@ -68,6 +68,13 @@ functions:
           path: email
           method: post
           cors: false
+  sendMessageEmail:
+    handler: functions/sendMessageEmail.handler
+    events:
+      - http:
+          path: message
+          method: post
+          cors: false
   createSku:
     handler: functions/createSku.handler
     events:

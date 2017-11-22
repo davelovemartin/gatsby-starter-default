@@ -26,9 +26,6 @@ const CustomLink = styled(Link)`
 `
 
 class Designs extends React.Component {
-  constructor ({ props, children, location }) {
-    super({ props, children, location })
-  }
   render () {
     const designs = this.props.data
     return (
@@ -42,7 +39,7 @@ class Designs extends React.Component {
           facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
           twitter={this.props.data.site.siteMetadata.twitter}
           preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
-          location={location.pathname}
+          location={this.props.location.pathname}
         />
         <Navbar navigation={designs.allContentfulNavigation.edges} />
         <AltHeader
@@ -50,30 +47,30 @@ class Designs extends React.Component {
         />
         <Container>
           <RowWrapFlex>
-          {designs.allStripeProduct.edges.map(({ node }) => (
-            <Box
-              mb={3}
-              width={'320px'}
-              key={node.id}
-            >
-              <CustomLink
-                to={'/designs/' + node.slug}
+            {designs.allStripeProduct.edges.map(({ node }) => (
+              <Box
+                mb={3}
+                width={'320px'}
+                key={node.id}
               >
-                <CustomCard>
-                  <BackgroundImage
-                    ratio={1}
-                    src={node.images[0]}
-                  />
-                  <Subhead
-                    pt={2}
-                    center
-                    fontSize={1}
-                    children={node.name + ' // ' + node.skus.data[0].attributes.artist}
-                  />
-                </CustomCard>
-              </CustomLink>
-            </Box>
-          ))}
+                <CustomLink
+                  to={'/designs/' + node.slug}
+                >
+                  <CustomCard>
+                    <BackgroundImage
+                      ratio={1}
+                      src={node.images[0]}
+                    />
+                    <Subhead
+                      pt={2}
+                      center
+                      fontSize={1}
+                      children={node.name + ' // ' + node.skus.data[0].attributes.artist}
+                    />
+                  </CustomCard>
+                </CustomLink>
+              </Box>
+            ))}
           </RowWrapFlex>
         </Container>
         <SignUpPrompt />
@@ -87,47 +84,47 @@ class Designs extends React.Component {
 export default Designs
 
 export const designsQuery = graphql`
-query DesignsQuery {
-  site {
-    siteMetadata {
-      title
-    }
-  }
-  allContentfulNavigation {
-    edges {
-      node {
-        order
-        href
-        position
-        text
+  query DesignsQuery {
+    site {
+      siteMetadata {
+        title
       }
     }
-  }
-  allStripeProduct {
-    edges {
-      node {
-        id
-        name
-        url
-        caption
-        description
-        slug
-        images
-        skus {
-          data {
-            id
-            price
-            image
-            attributes {
-              artist
-              colour
-              size
-              style
+    allContentfulNavigation {
+      edges {
+        node {
+          order
+          href
+          position
+          text
+        }
+      }
+    }
+    allStripeProduct {
+      edges {
+        node {
+          id
+          name
+          url
+          caption
+          description
+          slug
+          images
+          skus {
+            data {
+              id
+              price
+              image
+              attributes {
+                artist
+                colour
+                size
+                style
+              }
             }
           }
         }
       }
     }
   }
-}
 `

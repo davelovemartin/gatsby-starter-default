@@ -11,3 +11,5 @@ serverless/secrets.json
 gatsby-config.js
 gatsby-node.js
 .env.development
+.env.production
+aws-credentials.json

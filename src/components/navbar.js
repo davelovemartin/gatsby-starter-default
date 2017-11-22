@@ -48,7 +48,7 @@ class Navbar extends React.Component {
               fontSize={2}
             >
               <CustomLink
-                to={'/index/'}
+                to={'/'}
                 children={'Call of the Brave'}
                 color={'white'}
               />
@@ -65,15 +65,17 @@ class Navbar extends React.Component {
                 />
               </NavLink>
             )).value()}
-            <CustomButton
-              ml={3}
-              bg='base'
-              fontSize={2}
-              is='a'
-              href='/start/'
-              >
-              Join Us
-            </CustomButton>
+            <CustomLink
+              to={'/start/'}
+            >
+              <CustomButton
+                ml={3}
+                bg='base'
+                fontSize={2}
+                >
+                Join Us
+              </CustomButton>
+            </CustomLink>
           </Toolbar>
         </Hide>
         <Hide sm md lg>
@@ -95,12 +97,16 @@ class Navbar extends React.Component {
               direction='column'
             >
               <NavLink
-                href='/index/'
                 ml={2}
                 mb={2}
                 is='div'
+                fontSize={2}
               >
-                Call of the Brave
+                <CustomLink
+                  to={'/'}
+                  children={'Call of the Brave'}
+                  color={'white'}
+                />
               </NavLink>
               {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
                 <NavLink
@@ -114,15 +120,18 @@ class Navbar extends React.Component {
                   />
                 </NavLink>
               )).value()}
-              <CustomButton
-                mt={4}
-                ml={3}
-                bg='base'
-                is='a'
-                href='/start/'
+              <CustomLink
+                to={'/start/'}
               >
-                Join Us
-              </CustomButton>
+                <CustomButton
+                  mt={4}
+                  ml={3}
+                  bg='base'
+                  fontSize={2}
+                >
+                  Join Us
+                </CustomButton>
+              </CustomLink>
             </Flex>
           </Drawer>
         </Hide>

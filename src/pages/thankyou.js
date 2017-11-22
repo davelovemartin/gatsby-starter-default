@@ -17,8 +17,14 @@ import {
 var _ = require('lodash')
 
 class Thankyou extends React.Component {
-  constructor ({ props, children, location }) {
-    super({ props, children, location })
+  constructor (props) {
+    super(props)
+    this.state = { orderId: '' }
+  }
+  componentDidMount() {
+    this.setState({
+      orderId: this.props.history.location.state.orderId
+    })
   }
   render () {
     return (
@@ -32,7 +38,7 @@ class Thankyou extends React.Component {
           facebookImage={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/facebook-image.jpg'}
           twitter={this.props.data.site.siteMetadata.twitter}
           preview={'https://www.callofthebrave.org/images/dave/call-of-the-brave-1st-edition/preview.jpg'}
-          location={location.pathname}
+          location={this.props.location.pathname}
         />
         <Navbar navigation={this.props.data.allContentfulNavigation.edges} />
         <AltHeader
@@ -52,7 +58,7 @@ class Thankyou extends React.Component {
                 <Text
                   mb={2}
                 >
-                We have sent an email to confirm this but just in case take a note of your order number: {this.props.history.location.state.orderId} and quote this in any correspondence.
+                We have sent an email to confirm this but just in case take a note of your order number: {this.state.orderId} and quote this in any correspondence.
               </Text>
               {_.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'c6eVLdFcRfUOmAEEgkiOeui']).map(({node}) => (
                 <Img

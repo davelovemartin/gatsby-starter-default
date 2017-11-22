@@ -38,16 +38,6 @@ const FooterNav = props => (
         children={node.text}
       />
     )).value()}
-    <CustomText
-      color={'white'}
-    >
-      <FontAwesomeIcon
-        size={'2x'}
-        pack='fab'
-        name='facebook-messenger'
-        transform='shrink-5 left-3 down-3'
-      />
-    </CustomText>
   </div>
 )
 
