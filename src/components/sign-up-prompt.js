@@ -19,6 +19,7 @@ const SignUpPrompt = props => (
       center
       color={'blue'}
       mt={5}
+      fontSize={[2, 3, 4, 5]}
     />
     <Text
       center

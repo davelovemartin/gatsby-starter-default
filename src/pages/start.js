@@ -135,10 +135,7 @@ class StartPage extends React.Component {
             center
             mb={3}
           >
-            <a
-              href='https://www.callofthebrave.org/images/32x50cm-template.psd'
-              children='Download the template'
-            />
+          We ask for a 300ppi PNG (to preserve your transparent background). Use RGB colour values when designing your artwork. The maximum printing area is 32cm x 50cm
           </Text>
           <Text
             px={5}

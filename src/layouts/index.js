@@ -13,6 +13,12 @@ injectGlobal`
   body {
     margin: 0;
   }
+  @font-face {
+    font-family: "Futura";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Futura"), url('https://www.callofthebrave.org/fonts/futura.ttf') format("ttf"), url('https://www.callofthebrave.org/fonts/futura.eot') format("eot"), url('https://www.callofthebrave.org/fonts/futura.woff') format("woff");
+  }
 `
 
 const palette = palx('#c92929')
@@ -41,7 +47,7 @@ const TemplateWrapper = props => (
   <Provider
     theme={{
       breakpoints: [ 32, 48, 64, 80 ],
-      font: '"FuturaStd-Book", sans-serif',
+      font: '"Futura", sans-serif',
       fontSizes: [
         9, 12, 16, 24, 32, 48, 64
       ],

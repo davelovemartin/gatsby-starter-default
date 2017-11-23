@@ -13,3 +13,4 @@ gatsby-node.js
 .env.development
 .env.production
 aws-credentials.json
+static/fonts/

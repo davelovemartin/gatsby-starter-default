@@ -21,6 +21,7 @@ const Content = props => (
     >
       <CustomText
         f={2}
+        p={1}
         children={props.children}
       />
     </Box>

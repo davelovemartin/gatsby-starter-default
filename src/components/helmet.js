@@ -28,7 +28,8 @@ const CustomHelmet = props => (
     ]}
     link={[
       { rel: 'alternate', href: props.location, hreflang: 'en-uk' },
-      { rel: 'canonical', href: props.location }
+      { rel: 'canonical', href: props.location },
+      { rel: 'shortcut icon', href: 'https://www.callofthebrave.org/images/touch/favicon.ico'}
     ]}
   >
     <script type='application/ld+json'>{`

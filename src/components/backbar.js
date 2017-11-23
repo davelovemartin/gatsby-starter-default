@@ -26,10 +26,11 @@ class Backbar extends React.Component {
           bg='white'
         >
           <Link
-            mr='auto'
             to={'/designs/'}
           >
-            <NavLink>
+            <NavLink
+              is='div'
+            >
               <FontAwesomeIcon iconDefinition={faArrowLeft} />
               <Text
                 pl={1}

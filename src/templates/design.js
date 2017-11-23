@@ -396,12 +396,12 @@ class DesignPage extends React.Component {
               >
                 {this.state.activeStyles.map((activeStyle, index) => (
                   <StyleButton
+                    active={this.state.activeIndex === index}
+                    index={index}
+                    key={index}
+                    onClick={this.handleClick}
                     showWarning={this.state.showWarning}
                     style={activeStyle}
-                    key={index}
-                    index={index}
-                    onClick={this.handleClick}
-                    active={this.state.activeIndex === index}
                   />
                 ))}
               </Flex>
@@ -605,7 +605,7 @@ class DesignPage extends React.Component {
               src='https://www.callofthebrave.org/images/mission640.jpg'
             />
             <CustomText>
-              10% of the price of each t-shirt sold goes to projects supporting survivors of the Rana Plaza Building Disaster. Look out for news on the projects we support by subscribing to our newsletter and YouTube channel.
+              10% of the price of each t-shirt sold goes to projects supporting survivors of the Rana Plaza Building Disaster. Look out for news on the projects we support by subscribing to our newsletter and <a href="https://www.youtube.com/channel/UCjDeHlZ2l1RYlhUST3uZaUQ?sub_confirmation=1">YouTube channel</a>.
             </CustomText>
           </Container>
         : null }
