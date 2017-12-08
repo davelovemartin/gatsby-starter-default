@@ -79,7 +79,7 @@ class Navbar extends React.Component {
         </Hide>
         <Hide sm md lg>
           <Button
-            children='Toggle Drawer'
+            value='Toggle Drawer'
             bg='black'
             onClick={() => this.setState({ open: !this.state.open })}
           >

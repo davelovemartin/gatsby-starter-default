@@ -20,6 +20,7 @@ const AltHeader = props => (
         bg={'blue'}
         color={'white'}
         p={2}
+        is='h1'
       />
     </Container>
   </header>

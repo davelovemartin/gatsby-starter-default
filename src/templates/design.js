@@ -88,6 +88,10 @@ const CustomRadioButton = styled(Button)`
   }
 `
 
+const Label = styled.label`
+  color: #2979c9
+`
+
 class StyleButton extends React.Component {
   handleClick = () => this.props.onClick(this.props.index, this.props.style)
   render () {
@@ -368,6 +372,7 @@ class DesignPage extends React.Component {
               <Image
                 src={this.state.activeImage}
                 mx={'auto'}
+                alt={'mock up of ' + product.name}
               />
             </Box>
             <Box
@@ -385,9 +390,9 @@ class DesignPage extends React.Component {
                 children={product.description}
               />
 
-              <label
+              <Label
                 htmlFor='style'
-                children='1. Choose your style:'
+                children='Choose your style:'
               />
               <Flex
                 mt={2}
@@ -405,9 +410,9 @@ class DesignPage extends React.Component {
                   />
                 ))}
               </Flex>
-              <label
+              <Label
                 htmlFor='size'
-                children='2. Choose your size:'
+                children='Choose your size:'
               />
               <CustomSelect
                 aria-invalid={this.state.showWarning}
@@ -532,7 +537,8 @@ class DesignPage extends React.Component {
                 mt={3}
               >
                 <Box width={1}>
-                  <Text
+                  <Label
+                    htmlFor='discount'
                     children={this.state.message}
                   />
                 </Box>
@@ -546,6 +552,7 @@ class DesignPage extends React.Component {
                   mr={1}
                 >
                   <Input
+                    id='discount'
                     width={1}
                     value={this.state.code}
                     onChange={this.handleDiscountChange}
@@ -608,6 +615,7 @@ class DesignPage extends React.Component {
           >
             <CustomImage
               src='https://www.callofthebrave.org/images/mission640.jpg'
+              alt=''
             />
             <CustomText>
               10% of the price of each t-shirt sold goes to projects supporting survivors of the Rana Plaza Building Disaster. Look out for news on the projects we support by subscribing to our newsletter and <a href="https://www.youtube.com/channel/UCjDeHlZ2l1RYlhUST3uZaUQ?sub_confirmation=1">YouTube channel</a>.
@@ -624,12 +632,15 @@ class DesignPage extends React.Component {
             >
               <Image
                 src='https://www.callofthebrave.org/images/fwflogo_webrgb_large.png'
+                alt='logo of fair wear foundation'
               />
               <Image
                 src='https://www.callofthebrave.org/images/GOTS.png'
+                alt='logo of global organic textile standard'
               />
               <Image
                 src='https://www.callofthebrave.org/images/oeko-tex.png'
+                alt='logo of Oeko-tex standard'
               />
             </Flex>
             <Text>
@@ -654,6 +665,7 @@ class DesignPage extends React.Component {
           >
             <CustomImage
               src='https://www.callofthebrave.org/images/sizes.jpg'
+              alt=''
             />
             <CustomText>
               <CustomTable>

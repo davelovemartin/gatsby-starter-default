@@ -9,6 +9,15 @@ import {
   Subhead
 } from 'rebass'
 
+const CustomHeading = styled(Heading)`
+  width: fit-content;
+  margin: 1rem auto;
+`
+const CustomSubhead = styled(Subhead)`
+  width: fit-content;
+  margin: 1rem auto;
+`
+
 const CustomImg = styled(Img)`
   position: absolute;
   width: 100%;
@@ -16,7 +25,7 @@ const CustomImg = styled(Img)`
   left: 0;
   right: 0;
   bottom: 96px;
-  z-index: -99
+  z-index: -99;
 `
 const P = styled.p`
   margin-top: 96px;
@@ -44,19 +53,33 @@ const Header = props => (
       width={'100%'}
     >
       <Logo />
-      <Heading
-        fontSize={[1, 2, 3, 4]}
-        children={props.title}
-        color={'white'}
-        center
-      />
-      <Subhead
-        mt={[0, 1, 2, 3]}
-        fontSize={[0, 1, 2, 3]}
-        color={'white'}
-        children={props.subtitle}
-        center
-      />
+      <div
+        width='100%'
+      >
+        <CustomHeading
+          fontSize={[1, 2, 3, 4]}
+          children={props.title}
+          color={'white'}
+          bg={'black'}
+          center
+          is='h1'
+          p={1}
+        />
+      </div>
+      <div
+        width='100%'
+      >
+        <CustomSubhead
+          mt={[0, 1, 2, 3]}
+          fontSize={[0, 1, 2, 3]}
+          color={'white'}
+          children={props.subtitle}
+          bg={'black'}
+          center
+          is='h2'
+          p={1}
+        />
+      </div>
       <P>
         <ScrollLink
           activeClass='active'

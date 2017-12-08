@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormWithConstraints, FieldFeedbacks, FieldFeedback } from 'react-form-with-constraints'
 import DisplayFields from 'react-form-with-constraints/lib/DisplayFields'
 import {
@@ -6,6 +7,10 @@ import {
   Input,
   Text
 } from 'rebass'
+
+const Label = styled.label`
+  color: white;
+`
 
 class MailingListSignUp extends React.Component {
   constructor (props) {
@@ -55,16 +60,17 @@ class MailingListSignUp extends React.Component {
         ref={(formWithConstraints: any) => this.form = formWithConstraints}
         noValidate
       >
-        <Text
+        <Label
           p={2}
           children='sign up for our newsletter:'
-          color='white'
+          htmlFor='email'
         />
         <Input
           p={2}
           pl={3}
           my={2}
           mr={3}
+          id='email'
           bg='white'
           placeholder='your favourite email'
           type='email'
