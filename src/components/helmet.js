@@ -4,11 +4,9 @@ import Helmet from 'react-helmet'
 const CustomHelmet = props => (
   <Helmet
     title={props.title}
+    htmlAttributes={{ lang: 'en' }}
     meta={[
-      { charset: 'utf-8' },
       { name: 'description', content: props.description },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' },
       { name: 'google-site-verification', content: props.googleSiteVerification },
       { property: 'fb:app_id', content: props.fbAppId },
       { property: 'og:url', content: props.url },
@@ -29,7 +27,7 @@ const CustomHelmet = props => (
     link={[
       { rel: 'alternate', href: props.location, hreflang: 'en-uk' },
       { rel: 'canonical', href: props.location },
-      { rel: 'shortcut icon', href: 'https://www.callofthebrave.org/images/touch/favicon.ico'}
+      { rel: 'shortcut icon', href: 'https://www.callofthebrave.org/images/touch/favicon.ico' }
     ]}
   >
     <script type='application/ld+json'>{`

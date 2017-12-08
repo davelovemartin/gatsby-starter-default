@@ -21,6 +21,7 @@ const Logo = props => (
   <P>
     <Svg
       viewBox='0 0 90 150'
+      title="The Call of the Brave Logo - a Super Hero's Mask"
     >
       <g fill='none' fillRule='evenodd'>
         <path fill='#FFF' d='M0 0h90v150H0z' />

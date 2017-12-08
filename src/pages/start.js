@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import styled from 'styled-components'
 import Img from 'gatsby-image'
 import Navbar from '../components/navbar'
 import CustomHelmet from '../components/helmet'
@@ -11,12 +11,46 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import brands from '@fortawesome/fontawesome-free-brands'
 
 import CustomButton from '../components/custom-button'
-
 import {
   Container,
   Subhead,
   Text
 } from 'rebass'
+
+const CustomNav = styled.nav`
+  width: 38%;
+  margin: 2rem auto;
+  display: inline-flex;
+  justify-content: space-around;
+`
+
+const CustomAnchor = styled.a`
+  background-color: #2979c9;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  height: 48px;
+  line-height: 48px;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  width: 48px;
+  &:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  &:active {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #c92929;
+  }
+`
 
 var _ = require('lodash')
 
@@ -77,42 +111,44 @@ class StartPage extends React.Component {
             center
             mb={3}
           >
-            <a
-              href='https://twitter.com/callofthebrave'
-              target='_blank'
-              title='twitter'
-            >
-              <FontAwesomeIcon
-                size={'2x'}
-                pack='fab'
-                name='twitter'
-                transform='shrink-1 left-4'
-              />
-            </a>
-            <a
-              href='https://www.facebook.com/callofthebrave/'
-              target='_blank'
-              title='facebook'
-            >
-              <FontAwesomeIcon
-                size={'2x'}
-                pack='fab'
-                name='facebook-f'
-                transform='shrink-1 left-1'
-              />
-            </a>
-            <a
-              href='https://www.instagram.com/callofthebrave/'
-              target='_blank'
-              title='instagram'
-            >
-              <FontAwesomeIcon
-                size={'2x'}
-                pack='fab'
-                name='instagram'
-                transform='shrink-2 right-3'
-              />
-            </a>
+            <CustomNav role='navigation'>
+              <CustomAnchor
+                href='https://twitter.com/callofthebrave'
+                target='_blank'
+                title='twitter'
+              >
+                <FontAwesomeIcon
+                  size={'2x'}
+                  pack='fab'
+                  name='twitter'
+                  transform='shrink-1 down-2'
+                />
+              </CustomAnchor>
+              <CustomAnchor
+                href='https://www.facebook.com/callofthebrave/'
+                target='_blank'
+                title='facebook'
+              >
+                <FontAwesomeIcon
+                  size={'2x'}
+                  pack='fab'
+                  name='facebook-f'
+                  transform='shrink-1 down-2'
+                />
+              </CustomAnchor>
+              <CustomAnchor
+                href='https://www.instagram.com/callofthebrave/'
+                target='_blank'
+                title='instagram'
+              >
+                <FontAwesomeIcon
+                  size={'2x'}
+                  pack='fab'
+                  name='instagram'
+                  transform='shrink-2 down-2'
+                />
+              </CustomAnchor>
+            </CustomNav>
           </Text>
           <Text
             px={5}
@@ -151,22 +187,20 @@ class StartPage extends React.Component {
             center
             mb={5}
           >
-            <a
+            <CustomButton
+              bg='base'
+              children='Join us'
+              fontSize={4}
+              is='a'
               href='https://dave22.typeform.com/to/lX93wI'
               target='_blank'
-            >
-              <CustomButton
-                bg='base'
-                children='Join us'
-                fontSize={4}
-              />
-            </a>
+            />
           </Text>
           {_.chain(this.props.data.allContentfulAsset.edges).filter(['node.id', 'c3TKfjBGHMIIGsOuWWoKcOY']).map(({node}) => (
             <Img
               key={node.id}
               sizes={node.sizes}
-              alt={node.title}
+              alt={node.description}
             />
           )).value()}
         </Container>
@@ -190,6 +224,7 @@ export const query = graphql`
         node {
           id
           title
+          description
           sizes(maxHeight: 600) {
             ...GatsbyContentfulSizes
           }

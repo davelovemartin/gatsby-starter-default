@@ -12,6 +12,7 @@ const ProductItem = props => (
     <BackgroundImage
       ratio={1}
       src={props.images}
+      alt={'Mock up of ' + props.name}
     />
     <Subhead
       children={props.name}

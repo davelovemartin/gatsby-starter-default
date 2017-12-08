@@ -60,6 +60,7 @@ class Designs extends React.Component {
                     <BackgroundImage
                       ratio={1}
                       src={node.images[0]}
+                      alt={'Mock up of ' + node.name + ' designed by ' + node.skus.data[0].attributes.artist}
                     />
                     <Subhead
                       pt={2}

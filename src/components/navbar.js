@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Link from 'gatsby-link'
+import Link, { navigateTo } from 'gatsby-link'
 import CustomButton from './custom-button'
 import {
   Button,
@@ -38,45 +38,44 @@ class Navbar extends React.Component {
         width={'100%'}
       >
         <Hide xs>
-          <Toolbar
-            color='white'
-            bg='black'
-          >
-            <NavLink
-              mr='auto'
-              is='div'
-              fontSize={2}
+          <nav role='navigation'>
+            <Toolbar
+              color='white'
+              bg='black'
             >
-              <CustomLink
-                to={'/'}
-                children={'Call of the Brave'}
-                color={'white'}
-              />
-            </NavLink>
-            {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
               <NavLink
-                key={node.order}
+                mr='auto'
                 is='div'
                 fontSize={2}
               >
                 <CustomLink
-                  to={'/' + node.href + '/'}
-                  children={node.text}
+                  to={'/'}
+                  children={'Call of the Brave'}
+                  color={'white'}
                 />
               </NavLink>
-            )).value()}
-            <CustomLink
-              to={'/start/'}
-            >
+              {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
+                <NavLink
+                  key={node.order}
+                  is='div'
+                  fontSize={2}
+                >
+                  <CustomLink
+                    to={'/' + node.href + '/'}
+                    children={node.text}
+                  />
+                </NavLink>
+              )).value()}
               <CustomButton
                 ml={3}
                 bg='base'
                 fontSize={2}
+                onClick={() => navigateTo('/start/')}
                 >
                 Join Us
               </CustomButton>
-            </CustomLink>
-          </Toolbar>
+            </Toolbar>
+          </nav>
         </Hide>
         <Hide sm md lg>
           <Button
@@ -93,46 +92,45 @@ class Navbar extends React.Component {
             p={3}
             color='white'
             bg='black'>
-            <Flex
-              direction='column'
-            >
-              <NavLink
-                ml={2}
-                mb={2}
-                is='div'
-                fontSize={2}
+            <nav role='navigation'>
+              <Flex
+                direction='column'
               >
-                <CustomLink
-                  to={'/'}
-                  children={'Call of the Brave'}
-                  color={'white'}
-                />
-              </NavLink>
-              {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
                 <NavLink
-                  key={node.order}
                   ml={2}
+                  mb={2}
                   is='div'
+                  fontSize={2}
                 >
                   <CustomLink
-                    to={'/' + node.href + '/'}
-                    children={node.text}
+                    to={'/'}
+                    children={'Call of the Brave'}
+                    color={'white'}
                   />
                 </NavLink>
-              )).value()}
-              <CustomLink
-                to={'/start/'}
-              >
+                {_.chain(this.props.navigation).filter(['node.position', 'main']).sortBy('node.order').map(({node}) => (
+                  <NavLink
+                    key={node.order}
+                    ml={2}
+                    is='div'
+                  >
+                    <CustomLink
+                      to={'/' + node.href + '/'}
+                      children={node.text}
+                    />
+                  </NavLink>
+                )).value()}
                 <CustomButton
                   mt={4}
                   ml={3}
                   bg='base'
                   fontSize={2}
+                  onClick={() => navigateTo('/start/')}
                 >
                   Join Us
                 </CustomButton>
-              </CustomLink>
-            </Flex>
+              </Flex>
+            </nav>
           </Drawer>
         </Hide>
       </CustomFixed>

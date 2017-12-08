@@ -11,6 +11,10 @@ const StyledButton = styled(Button)`
   &:hover {
     cursor: pointer;
   }
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #2979c9;
+  }
 `
 
 const CustomButton = props => (

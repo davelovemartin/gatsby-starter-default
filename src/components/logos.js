@@ -11,6 +11,7 @@ const Logos = props => (
   >
     <Img
       sizes={props.image}
+      alt='Logos of the Big Lottery Fund, School for Social Entrepreneurs Fellow and a certified Social Enterprise by Social Enterprise UK'
     />
   </Container>
 )

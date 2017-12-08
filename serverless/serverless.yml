@@ -16,6 +16,7 @@ provider:
   runtime: nodejs6.10
   environment:
     STRIPE_SECRET_KEY: ${self:custom.secrets.stripeSecretKey}
+    STRIPE_SECRET_KEY_TEST: ${self:custom.secrets.stripeSecretKeyTest}
     MAILCHIMP_API_KEY: ${self:custom.secrets.mailchimpAPIKey}
     MAILCHIMP_LIST_ID: ${self:custom.secrets.mailchimpListId}
     MAILCHIMP_DATA_CENTRE: ${self:custom.secrets.mailchimpDataCentre}
@@ -53,7 +54,7 @@ functions:
       - http:
           path: charge
           method: post
-          cors: false
+          cors: true
   createProduct:
     handler: functions/createProduct.handler
     events:

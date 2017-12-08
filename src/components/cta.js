@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { navigateTo } from 'gatsby-link'
 import CustomButton from './custom-button'
 
 import {
@@ -7,7 +7,6 @@ import {
   Flex,
   Container
 } from 'rebass'
-
 
 const Cta = props => (
   <Container
@@ -20,15 +19,12 @@ const Cta = props => (
         pb={[3, 3, 3, 4]}
         mb={[3, 3, 3, 4]}
       >
-        <Link
-          to={props.callToActionLink}
-        >
-          <CustomButton
-            bg='base'
-            fontSize={[1, 2, 3, 4]}
-            children={props.callToAction}
-          />
-        </Link>
+        <CustomButton
+          bg='base'
+          fontSize={[1, 2, 3, 4]}
+          onClick={() => navigateTo(props.callToActionLink)}
+          children={props.callToAction}
+        />
       </Box>
     </Flex>
   </Container>

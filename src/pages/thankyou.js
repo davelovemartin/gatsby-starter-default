@@ -64,7 +64,7 @@ class Thankyou extends React.Component {
                 <Img
                   key={node.id}
                   sizes={node.sizes}
-                  alt={node.title}
+                  alt={node.description}
                 />
               )).value()}
             </Box>
@@ -92,6 +92,7 @@ query ThankyouPageQuery {
       node {
         id
         title
+        description
         sizes(maxHeight: 600) {
           ...GatsbyContentfulSizes
         }

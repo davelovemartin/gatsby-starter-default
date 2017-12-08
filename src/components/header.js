@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import Img from 'gatsby-image'
-import { Link } from 'react-scroll'
-import Logo from './logo.js'
+import ScrollLink from './scroll-link'
+import Logo from './logo'
 import {
   Absolute,
-  Button,
   Heading,
   Subhead
 } from 'rebass'
@@ -31,10 +30,11 @@ const P = styled.p`
 `
 
 const Header = props => (
-  <div
+  <header role='banner'
   >
     <CustomImg
       sizes={props.image}
+      alt=''
     />
     <Absolute
       top
@@ -58,22 +58,17 @@ const Header = props => (
         center
       />
       <P>
-        <Link activeClass='active'
-          to='about'
-          smooth
-          offset={-110}
-          duration={500}
+        <ScrollLink
+          activeClass='active'
           delay={200}
-        >
-          <Button
-            fontSize={[0, 1, 2, 3]}
-            children='read more'
-            bg={'base'}
-          />
-        </Link>
+          duration={500}
+          offset={-110}
+          smooth
+          to='about'
+        />
       </P>
     </Absolute>
-  </div>
+  </header>
 )
 
 export default Header

@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductItem from '../product-item'
 
-class ProductList  extends React.Component {
+class ProductList extends React.Component {
   constructor (props) {
     super(props)
 

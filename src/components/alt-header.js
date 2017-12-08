@@ -11,16 +11,18 @@ const CustomHeading = styled(Heading)`
 `
 
 const AltHeader = props => (
-  <Container
-    py={5}
-  >
-    <CustomHeading
-      children={props.children}
-      bg={'blue'}
-      color={'white'}
-      p={2}
-    />
-  </Container>
+  <header role='banner'>
+    <Container
+      py={5}
+    >
+      <CustomHeading
+        children={props.children}
+        bg={'blue'}
+        color={'white'}
+        p={2}
+      />
+    </Container>
+  </header>
 )
 
 export default AltHeader

@@ -47,6 +47,10 @@ const CustomButton = styled(Button)`
   line-height: 24px;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25),
               0 2px 10px 0 rgba(0,0,0,0.1);
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #2979c9;
+  }
 `
 const WarningText = styled(Text)`
   background-color: rgba(201, 41, 41, 0.25);
@@ -77,6 +81,10 @@ const CustomLinkButton = styled(Button)`
 `
 const CustomStyleButton = styled(Button)`
   ${props => props.showWarning && css` box-shadow: 0 0 0 1px #c92929`}
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #c92929;
+  }
 `
 
 class StyleButton extends React.Component {
@@ -574,25 +582,25 @@ class DesignPage extends React.Component {
               tabIndex={0}
             />
             <CustomTabItem
-              active={this.state.activeTabIndex === 2}
+              active={this.state.activeTabIndex === 1}
               children={'The T-Shirt'}
+              fontSize={[1, 2, 3, 4]}
+              onClick={this.handleTabClick}
+              tabIndex={1}
+            />
+            <CustomTabItem
+              active={this.state.activeTabIndex === 2}
+              children={'Size Guide'}
               fontSize={[1, 2, 3, 4]}
               onClick={this.handleTabClick}
               tabIndex={2}
             />
             <CustomTabItem
               active={this.state.activeTabIndex === 3}
-              children={'Size Guide'}
-              fontSize={[1, 2, 3, 4]}
-              onClick={this.handleTabClick}
-              tabIndex={3}
-            />
-            <CustomTabItem
-              active={this.state.activeTabIndex === 4}
               children={'Shipping and Returns'}
               fontSize={[1, 2, 3, 4]}
               onClick={this.handleTabClick}
-              tabIndex={4}
+              tabIndex={3}
             />
           </CustomTabs>
         </Container>
