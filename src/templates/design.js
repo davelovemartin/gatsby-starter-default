@@ -18,6 +18,7 @@ import {
   Heading,
   Image,
   Input,
+  Radio,
   Select,
   Small,
   Subhead,
@@ -79,7 +80,7 @@ const CustomLinkButton = styled(Button)`
   margin: 5px;
   width: 48px;
 `
-const CustomStyleButton = styled(Button)`
+const CustomRadioButton = styled(Button)`
   ${props => props.showWarning && css` box-shadow: 0 0 0 1px #c92929`}
   &:focus {
     outline: 0;
@@ -90,9 +91,9 @@ const CustomStyleButton = styled(Button)`
 class StyleButton extends React.Component {
   handleClick = () => this.props.onClick(this.props.index, this.props.style)
   render () {
-    return <CustomStyleButton
+    return <CustomRadioButton
       mr={1}
-      showWarning={this.props.showWarning}
+      aria-invalid={this.props.showWarning}
       bg={this.props.active ? 'blue' : 'grey'}
       children={this.props.style}
       onClick={this.handleClick}
@@ -307,7 +308,7 @@ class DesignPage extends React.Component {
   }
 
   handleLinkClick () {
-    this.setState({ activeTabIndex: 3})
+    this.setState({ activeTabIndex: 2})
   }
 
   async checkDiscountCode (code) {
@@ -383,25 +384,16 @@ class DesignPage extends React.Component {
                 mb={4}
                 children={product.description}
               />
-              <Text
-                mb={4}
-              >
-                Show it some love:&nbsp;
-                <FavoriteButton
-                  color={this.state.favColor}
-                  onClick={this.favorite}
-                >
-                  <FontAwesomeIcon
-                    size={'2x'}
-                    iconDefinition={faHeart}
-                    transform='shrink-2 left-5'
-                  />
-                </FavoriteButton>
-              </Text>
+
+              <label
+                htmlFor='style'
+                children='1. Choose your style:'
+              />
               <Flex
-                mt={4}
-                mb={1}
+                mt={2}
+                mb={3}
               >
+
                 {this.state.activeStyles.map((activeStyle, index) => (
                   <StyleButton
                     active={this.state.activeIndex === index}
@@ -413,17 +405,22 @@ class DesignPage extends React.Component {
                   />
                 ))}
               </Flex>
+              <label
+                htmlFor='size'
+                children='2. Choose your size:'
+              />
               <CustomSelect
+                aria-invalid={this.state.showWarning}
                 disabled={!this.state.isSelected}
-                showWarning={this.state.showWarning}
-                mt={3}
-                value={this.state.value}
+                id='size'
+                mt={2}
                 onChange={this.handleChange}
+                value={this.state.value}
               >
               {this.state.activeSizes.map((activeSize) => (
                 <option
-                  key={activeSize.id}
                   children={activeSize.attributes.size}
+                  key={activeSize.id}
                 />
               ))}
               </CustomSelect>
@@ -617,7 +614,7 @@ class DesignPage extends React.Component {
             </CustomText>
           </Container>
         : null }
-        {this.state.activeTabIndex === 2 ?
+        {this.state.activeTabIndex === 1 ?
           <Container
             maxWidth={540}
             my={5}
@@ -650,7 +647,7 @@ class DesignPage extends React.Component {
             </Text>
           </Container>
         : null }
-        {this.state.activeTabIndex === 3 ?
+        {this.state.activeTabIndex === 2 ?
           <Container
             maxWidth={540}
             my={5}
@@ -728,7 +725,7 @@ class DesignPage extends React.Component {
             </CustomText>
           </Container>
         : null }
-        {this.state.activeTabIndex === 4 ?
+        {this.state.activeTabIndex === 3 ?
           <Container
             maxWidth={540}
             my={5}

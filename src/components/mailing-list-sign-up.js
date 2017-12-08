@@ -70,6 +70,7 @@ class MailingListSignUp extends React.Component {
           type='email'
           name='email'
           required
+          aria-required
           className='required email'
           value={this.state.email}
           onChange={this.handleChange}

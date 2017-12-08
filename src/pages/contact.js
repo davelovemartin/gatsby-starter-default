@@ -108,26 +108,32 @@ class Thankyou extends React.Component {
               ref={(formWithConstraints: any) => this.form = formWithConstraints}
               noValidate
             >
+              <label htmlFor="email">Email:</label>
               <Input
                 p={2}
                 my={2}
                 bg='white'
-                placeholder='your email'
+                placeholder='Your favourite email'
+                id='email'
                 type='email'
                 name='email'
+                aria-required
                 required
                 className='required email'
                 value={this.state.email}
                 onChange={this.handleChange}
               />
+              <label htmlFor="text">Your message:</label>
               <Textarea
                 p={2}
                 my={2}
                 bg='white'
                 rows={8}
-                placeholder='your message'
+                placeholder='Your message'
+                id='text'
                 type='text'
                 name='text'
+                aria-required
                 required
                 className='required text'
                 value={this.state.userMessage}
